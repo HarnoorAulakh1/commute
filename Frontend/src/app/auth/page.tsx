@@ -1,5 +1,5 @@
 import Form from "./Form";
-import { cookies } from "next/headers";
+//import { cookies } from "next/headers";
 
 export const revalidate = 1;
 
