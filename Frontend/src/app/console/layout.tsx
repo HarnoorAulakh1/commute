@@ -27,10 +27,10 @@ export default async function Layout({
     if(response)
     data = await response.json();
   } catch (e) {
-    console.log(e.message);
+    console.log(e);
   }
   console.log("status",response?.status,data);
-  if (response?.status!=200) redirect("/auth");
+  // if (response?.status!=200) redirect("/auth");
   return (
     <div className="flex flex-row h-full">
       <TeamBar />

@@ -10,7 +10,7 @@ function Input() {
     const data = new FormData(form);
     const message = data.get("message");
     console.log(message);
-    console.log(data.get("upload").type);
+    console.log(data.get("upload"));
     fileState("");
     form.reset();
   }
