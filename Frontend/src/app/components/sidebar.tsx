@@ -15,6 +15,7 @@ import { CiGrid41 } from "react-icons/ci";
 import { FiLogOut } from "react-icons/fi";
 import { IoHelpBuoyOutline } from "react-icons/io5";
 import { MdOutlineDarkMode } from "react-icons/md";
+import { GrChannel } from "react-icons/gr";
 
 function Sidebar() {
   return (
@@ -35,6 +36,9 @@ function Sidebar() {
               </Tab>
               <Tab href="/" text="Manage members">
                 <MdManageAccounts />
+              </Tab>
+              <Tab href="/" text="Manage channels">
+                <GrChannel />
               </Tab>
               <hr className="w-full h-[1px] bg-[#c0bfbf]" />
               <Tab href="/" text="Workspace settings">

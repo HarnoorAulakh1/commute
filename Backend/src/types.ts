@@ -34,5 +34,14 @@ export interface channels{
 export interface team{
     name:string,
     logo:string,
-    channels:[channels]
+    channels:[channels],
+    admins:[userInterface],
+    members:[userInterface],
+    saved:[{
+        type:string,
+        link:string,
+        name:string
+    }],
+    description:string,
+    created_at:Date
 }

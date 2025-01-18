@@ -10,9 +10,9 @@ export default async function Layout({
 }) {
   const t1 = await cookies();
   const token = t1.get("token");
-  if (!token) {
-    redirect("/auth");
-  }
+  // if (!token) {
+  //   redirect("/auth");
+  // }
   //console.log(token);
   let response,data;
   try {

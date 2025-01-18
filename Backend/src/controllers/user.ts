@@ -109,3 +109,45 @@ export const getUser = async (req: Request, res: Response) => {
   const data = await user.findById(id);
   res.send(JSON.stringify(data));
 };
+
+//multer
+export const updateUser = async (req: Request, res: Response) => {
+  const { id } = req.params;
+  const { email, password, username, firstName, lastName }: userInterface =
+    req.body;
+  const check = await user.find({
+    $or: [{ email: email }, { username: username }],
+  });
+  if (check.length != 0) {
+    res.status(409).send(JSON.stringify({ message: "User already exists" }));
+    return;
+  } else {
+    try {
+      //const password_hashed = await bcrypt.hash(password, 10);
+      const newUser = {
+        email,
+        password: check[0].password,
+        username,
+        firstName,
+        lastName,
+        image:"NULL",
+        status: true,
+      };
+      if(req.file && req.file.path){
+        const local = req.file["path"];
+        const result = await uploadToCloudinary(local);
+        newUser.image = result.url;
+      }
+      await user.findByIdAndUpdate(id, newUser);
+      res
+        .status(200)
+        .send(JSON.stringify({ message: "User updated successfully" }));
+    } catch (e) {
+      res
+        .status(500)
+        .send(JSON.stringify({ message: "Internal server errror" }));
+    }
+  }
+}
+
+
