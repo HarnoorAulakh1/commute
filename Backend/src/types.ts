@@ -23,7 +23,7 @@ export interface messages{
     image:string,
 }
 
-export interface channels{
+export interface channel{
     name:string,
     team_id:string,
     logo:string,
@@ -34,7 +34,7 @@ export interface channels{
 export interface team{
     name:string,
     logo:string,
-    channels:[channels],
+    channels:[channel],
     admins:[userInterface],
     members:[userInterface],
     saved:[{

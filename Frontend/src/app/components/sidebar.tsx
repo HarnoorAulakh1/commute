@@ -16,6 +16,8 @@ import { FiLogOut } from "react-icons/fi";
 import { IoHelpBuoyOutline } from "react-icons/io5";
 import { MdOutlineDarkMode } from "react-icons/md";
 import { GrChannel } from "react-icons/gr";
+import Popup from "../utilities/popup";
+import AddChannel from "./addChannel";
 
 function Sidebar() {
   return (
@@ -29,15 +31,15 @@ function Sidebar() {
             </div>
           }
         >
-          <div className="bg-[#ffffff] text-[#8c8c8c] rounded-xl flex flex-col w-max h-max absolute top-10">
+          <div className="bg-[#ffffff] text-[#8c8c8c] rounded-xl flex flex-col w-max h-max absolute ">
             <div className="flex flex-col p-2 py-4 gap-2">
-              <Tab href="/" text="Preferences">
+              <Tab href="/console/preferences" text="Preferences">
                 <IoSettingsOutline />
               </Tab>
               <Tab href="/" text="Manage members">
                 <MdManageAccounts />
               </Tab>
-              <Tab href="/" text="Manage channels">
+              <Tab href="/channel" text="Create channels">
                 <GrChannel />
               </Tab>
               <hr className="w-full h-[1px] bg-[#c0bfbf]" />
@@ -59,7 +61,7 @@ function Sidebar() {
         </Menu>
         <CiSearch className="text-2xl hover:cursor-pointer" />
       </div>
-      <div className="flex flex-col gap-2">
+      <div className="flex flex-col gap-2 text-[#403e54]">
         <Tab href="/" text="Activity">
           <MdAssistant />
         </Tab>
@@ -129,13 +131,25 @@ function Tab({
   text: string;
 }) {
   return (
-    <Link
-      href={href}
-      className="flex flex-row hover:bg-[#ebeced] items-center gap-2 pl-2 rounded-lg hover:cursor-pointer"
-    >
-      <div className="text-xl">{children}</div>
-      <h1 className="text-md ">{text}</h1>
-    </Link>
+    <>
+      {href == "/channel" ? (
+        <Popup
+          trigger={
+            <div className="flex flex-row hover:bg-[#ebeced] items-center gap-2 pl-2 rounded-lg hover:cursor-pointer">
+              <div className="text-xl">{children}</div>
+              <h1 className="text-md ">{text}</h1>
+            </div>
+          }
+        >
+          <AddChannel />
+        </Popup>
+      ) : (
+        <Link href={href} className="flex flex-row hover:bg-[#ebeced] items-center gap-2 pl-2 rounded-lg hover:cursor-pointer">
+          <div className="text-xl">{children}</div>
+          <h1 className="text-md ">{text}</h1>
+        </Link>
+      )}
+    </>
   );
 }
 

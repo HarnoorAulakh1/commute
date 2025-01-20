@@ -1,27 +1,25 @@
 "use client";
 import { useState } from "react";
 
-function AddTeam() {
+export default function AddChannel() {
   const [state, fileState] = useState("");
-  async function handle(e: React.FormEvent<HTMLFormElement>) {
+  function handle(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
     const form = e.currentTarget;
     const data = new FormData(form);
-    await fetch("/api/addTeam", {
-      method: "POST",
-      body: data,
-    });
-    alert("Team added successfully");
+    const teamName = data.get("name");
+    const teamDescription = data.get("description");
+    console.log(teamName, teamDescription);
   }
   return (
     <div className="px-8 py-1 ">
-      <h1 className="font-bold">Create new Team</h1>{" "}
+      <h1 className="font-bold text-3xl text-black">Create new Team</h1>{" "}
       <form
         onSubmit={handle}
         className="flex flex-col gap-2 text-[1rem] w-[30rem] mt-5"
       >
         <div className="flex flex-row gap-2 items-start justify-between">
-          <label className="font-semibold text-lg">Team Name:</label>
+          <label className="font-semibold text-lg">Channel Name:</label>
           <input
             type="text"
             name="name"
@@ -30,7 +28,7 @@ function AddTeam() {
           />
         </div>
         <div className="flex flex-row gap-2 items-start justify-between">
-          <label className="font-semibold text-lg">Team Description:</label>
+          <label className="font-semibold text-lg">Channel Description:</label>
           <textarea
             name="description"
             placeholder="Team Description"
@@ -72,5 +70,3 @@ function AddTeam() {
     </div>
   );
 }
-
-export default AddTeam;

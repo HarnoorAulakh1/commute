@@ -36,6 +36,18 @@ const schema = new Schema({
     type: String,
     required: true,
   },
+  teams:[
+    {
+      type: Schema.Types.ObjectId,
+      ref: "team",
+    },
+  ],
+  channels:[
+    {
+      type: Schema.Types.ObjectId,
+      ref: "channel",
+    },
+  ],
   status: {
     type: String,
     required: true,

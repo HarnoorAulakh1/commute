@@ -1,12 +1,10 @@
 import Input from "../../components/messages/input";
 import Message from "../../components/messages/message";
-import Title from "../../components/messages/title";
 
 function Chat() {
   return (
-    <div className="relative w-[55%] h-[100%] flex flex-col items-center border-r-[1px] border-[#dfdfdf]">
-      <Title title="Websites / UI&Ux" />
-      <div className="flex flex-col scroll1 gap-8 items-start h-[100%] p-4 overflow-scroll overflow-x-hidden">
+    <div className="ZZ w-[100%] h-full flex flex-col overflow-hidden items-center border-r-[1px] border-[#dfdfdf]">
+      <div className="flex flex-col scroll1 gap-8 items-start p-4 overflow-scroll overflow-x-hidden">
         <Message
           file={{ name: "", type: "", link: "" }}
           img="/img3.jpeg"
@@ -36,6 +34,7 @@ function Chat() {
             link: "https://www.bossrides.in/wp-content/uploads/2023/03/harley-davidson-forty-eight-1-min-1.jpg",
           }}
         />
+        
         <div className="opacity-0 pb-10">
           <Message
             file={{ name: "", type: "", link: "" }}

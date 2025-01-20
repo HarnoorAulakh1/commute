@@ -21,7 +21,7 @@ function Account({ img }: { img: string }) {
         </div>
       }
     >
-      <div className="flex flex-col p-1 py-4 gap-2 absolute left-[2rem] top-[-5rem] rounded-md bg-white">
+      <div className="flex flex-col p-1 py-4 gap-2 rounded-md fixed bottom-12 left-12 bg-white">
         <Tab href="/" text="Preferences">
           <IoSettingsOutline />
         </Tab>

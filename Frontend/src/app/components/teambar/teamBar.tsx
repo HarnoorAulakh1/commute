@@ -8,29 +8,31 @@ import Popup from "../../utilities/popup";
 import AddTeam from "./add";
 import Account from "./account";
 
-function TeamBar() {
+async function TeamBar() {
   return (
-    <div className="try relative w-[6%] text-[2.5rem] h-[100%] flex flex-col items-center gap-2 pt-10">
-      <Icon href="/">
-        <AiFillSkype />
-      </Icon>
-      <Icon href="">
-        <AiFillTwitterCircle />
-      </Icon>
-      <Icon href="">
-        <AiFillPropertySafety />
-      </Icon>
-      <Popup
-        trigger={
-          <Icon href="">
-            <FaPlus />
-          </Icon>
-        }
-      >
-        <AddTeam />
-      </Popup>
-      <div className="absolute bottom-5"><Account img="/img1.jpeg" /></div>
-      
+    <div className="try w-[6%] flex flex-col justify-between overflow-hidden">
+      <div className="w-full text-[2.5rem] h-[100%] flex flex-col items-center gap-2 pt-10">
+        <Icon href="/">
+          <AiFillSkype />
+        </Icon>
+        <Icon href="">
+          <AiFillTwitterCircle />
+        </Icon>
+        <Icon href="">
+          <AiFillPropertySafety />
+        </Icon>
+        <Popup
+          trigger={
+            <Icon href="">
+              <FaPlus />
+            </Icon>
+          }
+        >
+          <AddTeam />
+        </Popup>
+      </div>
+      <div className="mx-2 mb-5"> <Account img="/img1.jpeg" /></div>
+       
     </div>
   );
 }
@@ -39,7 +41,7 @@ function Icon({ children, href }: { children: React.ReactNode; href: string }) {
   return (
     <Link href={href}>
       <div
-        className={`flex flex-row items-center relative right-[1.7rem] gap-2`}
+        className={`flex flex-row items-center relative right-[1.5rem] gap-2`}
       >
         <div
           className={`w-[2rem] h-[2.2rem] ${

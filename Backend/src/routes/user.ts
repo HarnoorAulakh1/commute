@@ -17,6 +17,6 @@ router.route("/register").post(upload.single("image"),register);
 router.route("/logout").post(logout);
 router.route("/checkLogin").get(checkLogin);
 router.route("/getUser/:id").get(getUser);
-router.route("/updateUser").get(updateUser);
+router.route("/updateUser").get(check,updateUser);
  
 export default router;

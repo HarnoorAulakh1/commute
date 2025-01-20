@@ -1,6 +1,9 @@
 import express from "express";
 import user from "./routes/user.js";
 import cors from "cors";
+import channel from "./routes/channel.js";
+import team from "./routes/team.js";
+import notification from "./routes/notification.js";
 const app = express();
 
 app.use(express.json());
@@ -14,6 +17,9 @@ app.use(cors({
 }));
 
 app.use("/user",user);
+app.use("/team",team);
+app.use("/channel",channel);
+app.use("/notification",notification);
 
 app.get("/", function (req, res) {
   res.send({ message: "Hello World" });

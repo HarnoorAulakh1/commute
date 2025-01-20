@@ -4,8 +4,6 @@ import Link from "next/link";
 
 function DirectMessages() {
   return (
-    <div className="relative w-[55%] h-[100%] flex flex-col items-center border-r-[1px] border-[#dfdfdf]">
-      <Title title="Contacts" />
       <div className="flex flex-col items-center scroll1 gap-2 w-full h-[100%] p-4 overflow-scroll overflow-x-hidden">
         <Tab
           href="/console/chat"
@@ -28,8 +26,63 @@ function DirectMessages() {
           message="Lets bring some Booze"
           unseen={2}
         />
+         <Tab
+          href="/console/chat"
+          img="/fire.png"
+          name="Design"
+          message="Lets bring some Booze"
+          unseen={2}
+        />
+         <Tab
+          href="/console/chat"
+          img="/fire.png"
+          name="Design"
+          message="Lets bring some Booze"
+          unseen={2}
+        />
+         <Tab
+          href="/console/chat"
+          img="/fire.png"
+          name="Design"
+          message="Lets bring some Booze"
+          unseen={2}
+        />
+         <Tab
+          href="/console/chat"
+          img="/fire.png"
+          name="Design"
+          message="Lets bring some Booze"
+          unseen={2}
+        />
+         <Tab
+          href="/console/chat"
+          img="/fire.png"
+          name="Design"
+          message="Lets bring some Booze"
+          unseen={2}
+        />
+         <Tab
+          href="/console/chat"
+          img="/fire.png"
+          name="Design"
+          message="Lets bring some Booze"
+          unseen={2}
+        />
+         <Tab
+          href="/console/chat"
+          img="/fire.png"
+          name="Design"
+          message="Lets bring some Booze"
+          unseen={2}
+        />
+         <Tab
+          href="/console/chat"
+          img="/fire.png"
+          name="Design"
+          message="Lets bring some Booze"
+          unseen={2}
+        />
       </div>
-    </div>
   );
 }
 
