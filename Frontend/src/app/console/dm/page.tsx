@@ -1,5 +1,4 @@
 import Image from "next/image";
-import Title from "../../components/messages/title";
 import Link from "next/link";
 
 function DirectMessages() {

@@ -16,7 +16,7 @@ function Title() {
         </div>
 
         <span className="hover:cursor-pointer">
-          {path.length==3 &&  path.split("/")[2].toUpperCase()}
+          {path.split("/").length==3 && path.split("/")[2].toUpperCase()}
         </span>
       </div>
       <div className="flex flex-row items-center gap-4">

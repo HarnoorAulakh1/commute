@@ -1,4 +1,3 @@
-import { div } from "framer-motion/client";
 import { GoHash } from "react-icons/go";
 
 export default function AddMember() {
