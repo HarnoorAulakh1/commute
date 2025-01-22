@@ -6,9 +6,7 @@ import { LuMessageSquareMore } from "react-icons/lu";
 import { CiSearch } from "react-icons/ci";
 import { FaCaretDown } from "react-icons/fa";
 import Link from "next/link";
-import Image from "next/image";
-import List from "./list";
-import Menu from "./menu";
+import Menu from "../menu";
 import { IoSettingsOutline } from "react-icons/io5";
 import { MdManageAccounts } from "react-icons/md";
 import { CiGrid41 } from "react-icons/ci";
@@ -16,10 +14,11 @@ import { FiLogOut } from "react-icons/fi";
 import { IoHelpBuoyOutline } from "react-icons/io5";
 import { MdOutlineDarkMode } from "react-icons/md";
 import { GrChannel } from "react-icons/gr";
-import Popup from "../utilities/popup";
-import AddChannel from "./addChannel";
+import Popup from "../../utilities/popup";
+import AddChannel from "../addChannel";
+import Channels from "./channels";
 
-function Sidebar() {
+async function Sidebar() {
   return (
     <div className="flex flex-col gap-3 w-[20%] h-full p-3 border-r-[1px] border-[#dfdfdf]">
       <div className="flex flex-row justify-between items-center p-2">
@@ -78,48 +77,11 @@ function Sidebar() {
           <LuMessageSquareMore />
         </Tab>
       </div>
-      <List heading="Channels">
-        <div className="flex flex-col gap-2 pl-2">
-          <Tab2 href="/console/chat" text="General">
-            <Image alt="fire" src="/fire.png" width={20} height={20} />
-          </Tab2>
-          <Tab2 href="/console/chat" text="Random">
-            <MdAssistant />
-          </Tab2>
-          <Tab2 href="/console/chat" text="Design">
-            <MdAssistant />
-          </Tab2>
-          <Tab2 href="/console/chat" text="Development">
-            <MdAssistant />
-          </Tab2>
-          <Tab2 href="/console/chat" text="Marketing">
-            <MdAssistant />
-          </Tab2>
-        </div>
-      </List>
+      <Channels />
     </div>
   );
 }
 
-function Tab2({
-  children,
-  href,
-  text,
-}: {
-  children: React.ReactNode;
-  href: string;
-  text: string;
-}) {
-  return (
-    <Link
-      href={href}
-      className="flex flex-row hover:bg-[#ebeced] items-center gap-2 pl-2 rounded-lg hover:cursor-pointer"
-    >
-      <div className="text-xl">{children}</div>
-      <h1 className="text-sm text-[#908f9e]">{text}</h1>
-    </Link>
-  );
-}
 
 function Tab({
   children,

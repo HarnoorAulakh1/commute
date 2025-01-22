@@ -1,8 +1,11 @@
 import Image from "next/image";
 import Link from "next/link";
+import Title from "../../components/messages/title";
 
 function DirectMessages() {
   return (
+    <div className="w-[100%] h-full flex flex-col overflow-hidden items-center border-r-[1px] border-[#dfdfdf]">
+      <Title title="DM"/>
       <div className="flex flex-col items-center scroll1 gap-2 w-full h-[100%] p-4 overflow-scroll overflow-x-hidden">
         <Tab
           href="/console/chat"
@@ -25,56 +28,56 @@ function DirectMessages() {
           message="Lets bring some Booze"
           unseen={2}
         />
-         <Tab
+        <Tab
           href="/console/chat"
           img="/fire.png"
           name="Design"
           message="Lets bring some Booze"
           unseen={2}
         />
-         <Tab
+        <Tab
           href="/console/chat"
           img="/fire.png"
           name="Design"
           message="Lets bring some Booze"
           unseen={2}
         />
-         <Tab
+        <Tab
           href="/console/chat"
           img="/fire.png"
           name="Design"
           message="Lets bring some Booze"
           unseen={2}
         />
-         <Tab
+        <Tab
           href="/console/chat"
           img="/fire.png"
           name="Design"
           message="Lets bring some Booze"
           unseen={2}
         />
-         <Tab
+        <Tab
           href="/console/chat"
           img="/fire.png"
           name="Design"
           message="Lets bring some Booze"
           unseen={2}
         />
-         <Tab
+        <Tab
           href="/console/chat"
           img="/fire.png"
           name="Design"
           message="Lets bring some Booze"
           unseen={2}
         />
-         <Tab
+        <Tab
           href="/console/chat"
           img="/fire.png"
           name="Design"
           message="Lets bring some Booze"
           unseen={2}
         />
-         <Tab
+        <Tab
           href="/console/chat"
           img="/fire.png"
           name="Design"
@@ -82,6 +85,7 @@ function DirectMessages() {
           unseen={2}
         />
       </div>
+    </div>
   );
 }
 

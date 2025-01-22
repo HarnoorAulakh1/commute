@@ -90,12 +90,12 @@ export const checkLogin = async (req: Request, res: Response) => {
   const secret: any = process.env.secret;
   try {
     if (!token) {
-      console.log("kya haal ne");
+      //console.log("kya haal ne");
       res.status(401).send({ message: "No token" });
     } else {
       const data: any = jwt.verify(token, secret);
 
-      console.log(data["_doc"]);
+      //console.log(data["_doc"]);
       res.status(200).send(data["_doc"]);
     }
   } catch (e) {
@@ -118,36 +118,28 @@ export const updateUser = async (req: Request, res: Response) => {
   const check = await user.find({
     $or: [{ email: email }, { username: username }],
   });
-  if (check.length != 0) {
-    res.status(409).send(JSON.stringify({ message: "User already exists" }));
-    return;
-  } else {
-    try {
-      //const password_hashed = await bcrypt.hash(password, 10);
-      const newUser = {
-        email,
-        password: check[0].password,
-        username,
-        firstName,
-        lastName,
-        image:"NULL",
-        status: true,
-      };
-      if(req.file && req.file.path){
-        const local = req.file["path"];
-        const result = await uploadToCloudinary(local);
-        newUser.image = result.url;
-      }
-      await user.findByIdAndUpdate(id, newUser);
-      res
-        .status(200)
-        .send(JSON.stringify({ message: "User updated successfully" }));
-    } catch (e) {
-      res
-        .status(500)
-        .send(JSON.stringify({ message: "Internal server errror" }));
+
+  try {
+    //const password_hashed = await bcrypt.hash(password, 10);
+    const newUser = {
+      email,
+      password: check[0].password,
+      username,
+      firstName,
+      lastName,
+      image: "NULL",
+      status: true,
+    };
+    if (req.file && req.file.path) {
+      const local = req.file["path"];
+      const result = await uploadToCloudinary(local);
+      newUser.image = result.url;
     }
+    await user.replaceOne({ _id: id }, newUser);
+    res
+      .status(200)
+      .send(JSON.stringify({ message: "User updated successfully" }));
+  } catch (e) {
+    res.status(500).send(JSON.stringify({ message: "Internal server errror" }));
   }
-}
-
-
+};

@@ -1,4 +1,5 @@
 "use client";
+import Title from "../../components/messages/title";
 import { useState } from "react";
 
 export default function Preferences() {
@@ -11,6 +12,8 @@ export default function Preferences() {
     console.log(data.get("name"), data.get("email"), data.get("description"));
   }
   return (
+    <div className="w-[100%] h-full flex flex-col overflow-hidden items-center border-r-[1px] border-[#dfdfdf]">
+<Title  title="Preferences"/>
     <div className=" h-full gap-4 outline-none p-5">
       <form className="flex flex-col gap-5" onSubmit={(e) => handle(e)}>
         <h1 className="font-bold">
@@ -88,6 +91,7 @@ export default function Preferences() {
           Save
         </button>
       </form>
+    </div>
     </div>
   );
 }

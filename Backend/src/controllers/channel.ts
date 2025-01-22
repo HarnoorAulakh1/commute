@@ -4,7 +4,7 @@ import {
   deleteFromCloudinary,
   uploadToCloudinary,
 } from "../utils/cloudinary.js";
-import { team } from "../models/team";
+import { team } from "../models/team.js";
 import { channel as channelInterface } from "../types.js";
 import user from "../models/user.js";
 import { notification } from "../models/notifications.js";
@@ -12,18 +12,21 @@ import { notification } from "../models/notifications.js";
 //multer
 export const createChannel = async (req: Request, res: Response) => {
   const { name, description, team_id } = req.body;
+  const {_id}=req.body.user;
   const channel1 = new channel({
     name,
     description,
     team_id,
+    members: [_id],
   });
-
   if (req.file && req.file.path) {
     const local = req.file["path"];
     const result = await uploadToCloudinary(local);
     channel1.logo = result.url;
   }
   await channel1.save();
+  await user.findByIdAndUpdate(_id, { $push: { channels: channel1._id } });
+  await team.findByIdAndUpdate(team_id, { $push: { channels: channel1._id } });
   res.status(200).send(channel1);
 };
 
@@ -40,10 +43,13 @@ export const updateChannel = async (req: Request, res: Response) => {
   const { _id, newData } = req.body;
   if (req.file && req.file.path) {
     const local = req.file["path"];
+    const prev = await channel.findById(_id);
     const result = await uploadToCloudinary(local);
     newData.logo = result.url;
+    if (prev && prev.logo && prev.logo != "NULL")
+      await deleteFromCloudinary(prev.logo);
   }
-  await channel.findByIdAndUpdate(_id, newData);
+  await channel.replaceOne({ _id }, newData);
   res.status(200).send({ message: "channel updated successfully" });
 };
 
@@ -73,9 +79,11 @@ export const removeMember = async (req: Request, res: Response) => {
 };
 
 export const getChannels = async (req: Request, res: Response) => {
-  const { teams_id } = req.body;
-  const data = await channel.find({ team_id: teams_id });
-  res.status(200).send(data);
+  const { team_id } = req.query;
+  console.log("teams_id", req.query);
+  const data = await channel.find({ team_id: team_id });
+  console.log("data", data);
+  res.status(200).send(JSON.stringify(data));
 };
 
 export const getChannel = async (req: Request, res: Response) => {

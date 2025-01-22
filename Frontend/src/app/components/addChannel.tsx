@@ -1,15 +1,30 @@
 "use client";
 import { useState } from "react";
+import { useSearchParams } from "next/navigation";
 
 export default function AddChannel() {
   const [state, fileState] = useState("");
-  function handle(e: React.FormEvent<HTMLFormElement>) {
+  const id = useSearchParams().get("id1");
+  async function handle(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
     const form = e.currentTarget;
     const data = new FormData(form);
-    const teamName = data.get("name");
-    const teamDescription = data.get("description");
-    console.log(teamName, teamDescription);
+    if(data.get("name") === "" || data.get("description") === ""){
+      alert("Please fill all the fields");
+      return;
+    }
+    if (id) data.append("team_id", id);
+    const response = await fetch("/api/channel/createChannel", {
+      method: "POST",
+      mode: "cors",
+      credentials: "include",
+      body: data,
+    });
+    if (response.status === 200) {
+      alert("Channel created successfully");
+    } else {
+      alert("Channel creation failed");
+    }
   }
   return (
     <div className="px-8 py-1 ">
@@ -49,7 +64,7 @@ export default function AddChannel() {
                 fileState(e.target.files[0].name);
               }
             }}
-            name="upload"
+            name="logo"
             id="upload"
             placeholder="Team Members"
             className="border-2 border-gray-300 rounded-lg p-1 hidden"

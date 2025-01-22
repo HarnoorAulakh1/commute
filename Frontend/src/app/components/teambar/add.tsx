@@ -7,11 +7,16 @@ function AddTeam() {
     e.preventDefault();
     const form = e.currentTarget;
     const data = new FormData(form);
-    await fetch("/api/addTeam", {
+    const response = await fetch("/api/team/createTeam", {
       method: "POST",
+      mode: "cors",
+      credentials: "include",
       body: data,
     });
-    alert("Team added successfully");
+    const result = await response.json();
+    console.log(result);
+    if (response.status == 200) alert("Team created successfully");
+    else alert("Team creation failed");
   }
   return (
     <div className="px-8 py-1 ">
@@ -51,7 +56,7 @@ function AddTeam() {
                 fileState(e.target.files[0].name);
               }
             }}
-            name="upload"
+            name="logo"
             id="upload"
             placeholder="Team Members"
             className="border-2 border-gray-300 rounded-lg p-1 hidden"

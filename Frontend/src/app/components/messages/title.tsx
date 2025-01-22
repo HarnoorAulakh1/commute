@@ -3,11 +3,8 @@ import { GoHash } from "react-icons/go";
 import { RiGeminiLine } from "react-icons/ri";
 import { HiOutlineDotsHorizontal } from "react-icons/hi";
 import { IoIosInformationCircleOutline } from "react-icons/io";
-import { usePathname } from "next/navigation";
 
-function Title() {
-  const path = usePathname();
-
+function Title({ title }: { title: string }) {
   return (
     <div className="text-[#76747f] flex flex-row items-center w-full font-bold justify-between p-4 shadow-sm border-b-[1px] border-[#dfdfdf]">
       <div className=" flex flex-row items-center gap-2">
@@ -15,9 +12,7 @@ function Title() {
           <GoHash className="bg-white" />
         </div>
 
-        <span className="hover:cursor-pointer">
-          {path.split("/").length==3 && path.split("/")[2].toUpperCase()}
-        </span>
+        <span className="hover:cursor-pointer">{title}</span>
       </div>
       <div className="flex flex-row items-center gap-4">
         <div className="hover:bg-[#e3e3e8] p-1 rounded-md">
