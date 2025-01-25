@@ -15,7 +15,7 @@ function Menu({
       {state && (
         <>
           <div
-            className="w-full h-full absolute top-0 left-0 z-[99]"
+            className="w-full h-full fixed top-0 left-0 z-[99]"
             onClick={() => set((x) => !x)}
           ></div>
           <div className="relative z-[999]">{children}</div>

@@ -146,10 +146,6 @@ function Login({
 }: {
   setter: React.Dispatch<React.SetStateAction<boolean>>;
 }) {
-  // const avatar = createAvatar(identicon,{
-  //   seed:"Harnoor Aulakh"
-  // });
-  //const svg = avatar.toString();
   const [Loading, set] = useState(false);
   const router = useRouter();
   //const { show } = useNotify();

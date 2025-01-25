@@ -110,6 +110,12 @@ export const getUser = async (req: Request, res: Response) => {
   res.send(JSON.stringify(data));
 };
 
+export const getUsers = async (req: Request, res: Response) => {
+  const { username } = req.query;
+  const data = await user.find({ username: { $regex: username,$options:'i'} });
+  res.status(200).send(JSON.stringify(data));
+};
+
 //multer
 export const updateUser = async (req: Request, res: Response) => {
   const { id } = req.params;

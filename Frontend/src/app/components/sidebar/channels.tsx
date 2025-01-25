@@ -35,7 +35,7 @@ function Channels() {
       <div className="flex flex-col gap-2 pl-2">
         {channels.map((channel: { name: string; _id: string,logo:string }) => (
           <Tab2
-            href={`${path}/?id1=${id}&id2=${channel._id}`}
+            href={`${path}/chat/?id1=${id}&id2=${channel._id}`}
             text={channel.name}
             key={channel._id}
           >

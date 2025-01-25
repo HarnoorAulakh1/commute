@@ -4,6 +4,7 @@ import {
   register,
   checkLogin,
   getUser,
+  getUsers,
   logout,
   updateUser,
 } from "../controllers/user.js";
@@ -17,6 +18,7 @@ router.route("/register").post(upload.single("image"),register);
 router.route("/logout").post(logout);
 router.route("/checkLogin").get(checkLogin);
 router.route("/getUser/:id").get(getUser);
+router.route("/getUsers").get(check,getUsers);
 router.route("/updateUser").get(check,updateUser);
  
 export default router;
