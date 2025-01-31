@@ -1,23 +1,28 @@
 import React from "react";
-import Image from "next/image";
 import Menu from "../menu";
 import { MdOutlineDarkMode } from "react-icons/md";
 import { FiLogOut } from "react-icons/fi";
 import { IoSettingsOutline } from "react-icons/io5";
 import Tab from "../../utilities/tab";
+import { cookies } from "next/headers";
+import { Avatar } from "../addMemeber";
 
-function Account({ img }: { img: string }) {
+async function Account() {
+  const cookies1 = await cookies();
+    const response = await fetch("http://localhost:8000/user/checkLogin", {
+      method: "GET",
+      mode: "cors",
+      headers: {
+        Authorization: JSON.stringify(cookies1.get("token")),
+      },
+      credentials: "include",
+    });
+    const user = await response.json();
   return (
     <Menu
       trigger={
-        <div className="rounded-full right-[1.7rem]">
-          <Image
-            src={img}
-            height={50}
-            width={50}
-            alt="Dummy Image"
-            className="rounded-full aspect-square object-cover hover:cursor-pointer"
-          />
+        <div className="rounded-md border-[1px] border-black right-[1.7rem] overflow-hidden">
+          <Avatar src={user.image} username={user.username} h={60} w={60}/>
         </div>
       }
     >

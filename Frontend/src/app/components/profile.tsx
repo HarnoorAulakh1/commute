@@ -10,6 +10,10 @@ export const userContext = createContext<{
     lastName: string;
     status: string;
     origin:string;
+    team:string;
+    channel:string;
+    c_team:string;
+    c_channel:string;
   };
   dispatch: React.Dispatch<
     React.SetStateAction<{
@@ -20,6 +24,10 @@ export const userContext = createContext<{
       lastName: string;
       status: string;
       origin:string;
+      team:string;
+      channel:string;
+      c_team:string;
+      c_channel:string;
     }>
   >;
 }>({
@@ -30,7 +38,11 @@ export const userContext = createContext<{
     firstName: "",
     lastName: "",
     status: "",
-    origin:""
+    origin:"",
+    team:"",
+    channel:"",
+    c_team:"",
+    c_channel:""
   },
   dispatch: () => {},
 });
@@ -44,6 +56,10 @@ export default function Profile({ children }: { children: React.ReactNode }) {
     lastName: string;
     status: string;
     origin:string;
+    team:string;
+    channel:string;
+    c_channel:string;
+    c_team:string;
   }>({
     _id: "",
     username: "",
@@ -51,12 +67,16 @@ export default function Profile({ children }: { children: React.ReactNode }) {
     firstName: "",
     lastName: "",
     status: "",
-    origin:""
+    origin:"",
+    team:"",
+    channel:"",
+    c_channel:"",
+    c_team:""
   });
 
   useEffect(() => {
     const fetchUser = async () => {
-      const data = await fetch(`/api/user/checkLogin`, {
+      const response = await fetch(`/api/user/checkLogin`, {
         method: "GET",
         mode: "cors",
         headers: {
@@ -64,7 +84,9 @@ export default function Profile({ children }: { children: React.ReactNode }) {
         },
         credentials: "include",
       });
-      dispatch(await data.json());
+      const data=await response.json()
+      //console.log("user=",data);
+      dispatch(data);
     };
     fetchUser();
   }, []);

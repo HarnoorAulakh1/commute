@@ -11,7 +11,7 @@ function Channels() {
   const id = useSearchParams().get("id1");
   const path=usePathname();
   const [channels, setChannels] = useState([]);
-  console.log("id", id);
+  //console.log("id", id);
   useEffect(() => {
     async function handle() {
         if(!id) return;
@@ -26,7 +26,7 @@ function Channels() {
       const data = await response.json();
       if (response.status === 200) setChannels(data);
       else alert("Failed to fetch channels");
-      console.log("channels", data);
+      //console.log("channels", data);
     }
     handle();
   }, [id]);

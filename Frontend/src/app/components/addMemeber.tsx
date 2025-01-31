@@ -43,7 +43,7 @@ export default function AddMember() {
         />
       </form>
       {profile ? (
-        <>{user && <Profile user={user} />}</>
+        <>{user && <Profile user={user} />}</> 
       ) : (
         <div className="w-full h-full flex flex-col gap-2">
           {users.map((user: userInterface & { _id: string }) => (
@@ -65,7 +65,7 @@ export default function AddMember() {
   );
 }
 
-function Avatar({
+export function Avatar({
   src,
   username,
   w,
@@ -80,7 +80,6 @@ function Avatar({
     seed: username,
   });
   const svg = avatar.toString();
-  console.log(src, src != "NULL" && src != "undefined");
   return (
     <div className=" rounded-md py-1">
       {src != "NULL" && src ? (
@@ -116,13 +115,14 @@ function Profile({ user }: { user: userInterface }) {
     <div className="w-full h-full flex flex-col items-center gap-2">
       <Title title="Profile" />
       <div className="w-full h-full flex flex-col gap-2">
-        <div className="flex flex-col items-center gap-4 px-5">
+        <div className="flex flex-col items-center gap-5 px-5 ">
           <Avatar src={user.image} username={user.username} h={120} w={120} />
-          <span>{user.username}</span>
+          <span className="font-bold">{user.username}</span>
           <span>
             {user.firstName} {user.lastName}
           </span>
         </div>
+        <button className="border-[1px] w-max px-2 border-[#d0cfcf]">Invite to team</button>
       </div>
     </div>
   );

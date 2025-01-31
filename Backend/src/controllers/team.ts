@@ -7,6 +7,7 @@ import { check } from "../middleware/auth";
 import { notification } from "../models/notifications.js";
 import { deleteFromCloudinary } from "../utils/cloudinary.js";
 import { populate } from '../../node_modules/dotenv/lib/main.d';
+import { addNotification } from "./notifications.js";
 
 //multer
 export const createTeam = async (req: Request, res: Response) => {
@@ -92,18 +93,20 @@ export const removeMember = async (req: Request, res: Response) => {
 };
 
 export const sendRequest = async (req: Request, res: Response) => {
-  const { team_id, user_id } = req.body;
+  const { team_id, user_id,sender_id } = req.body;
   const data = new notification({
     user_id,
     message: `You have been invited to join the team`,
     type: "invite",
   });
   await data.save();
+  addNotification({ user_id,sender_id, message: `You have been invited to join the team`, type: "invite" });
   res.status(200).send(JSON.stringify({ message: "Invite sent successfully" }));
 };
 
 export const addMember = async (req: Request, res: Response) => {
-  const { team_id, member_id } = req.body;
+  let { team_id, member_id } = req.body;
+  member_id=req.body.user._id;
   const check = await team.find({ _id: team_id, members: { $in: member_id } });
   if (check.length > 0) {
     res.status(401).send(JSON.stringify({ message: "Member already exists" }));

@@ -9,7 +9,7 @@ export default function Preferences() {
     e.preventDefault();
     const form = e.currentTarget;
     const data = new FormData(form);
-    console.log(data.get("name"), data.get("email"), data.get("description"));
+    //console.log(data.get("name"), data.get("email"), data.get("description"));
   }
   return (
     <div className="w-[100%] h-full flex flex-col overflow-hidden items-center border-r-[1px] border-[#dfdfdf]">

@@ -29,7 +29,7 @@ export default async function Layout({
   } catch (e) {
     console.log(e);
   }
-  console.log("status", response?.status, data);
+  //console.log("status", response?.status, data);
   if (response?.status != 200) redirect("/auth");
   return (
       <div className="flex flex-row h-full overflow-hidden z-0">

@@ -70,7 +70,7 @@ async function Sidebar() {
         <Tab href="/console/saved" text="Saved items">
           <CiBookmarkCheck />
         </Tab>
-        <Tab href="/" text="Inbox">
+        <Tab href={`/console/inbox`} text="Inbox">
           <HiOutlineInbox />
         </Tab>
         <Tab href="/console/dm" text="Direct Messages">
