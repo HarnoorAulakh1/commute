@@ -1,30 +1,29 @@
 "use client";
-import { useState } from "react";
-import { useSearchParams } from "next/navigation";
+import { useContext, useState } from "react";
+import { userContext } from "./profile";
 
 export default function AddChannel() {
   const [state, fileState] = useState("");
-  const id = useSearchParams().get("id1");
+  const { user } = useContext(userContext);
   async function handle(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
     const form = e.currentTarget;
     const data = new FormData(form);
-    if(data.get("name") === "" || data.get("description") === ""){
+    data.append("creater_id", user._id);
+    if (data.get("name") === "" || data.get("description") === "") {
       alert("Please fill all the fields");
       return;
     }
-    if (id) data.append("team_id", id);
+    if (user.c_team) data.append("team_id", user.c_team);
     const response = await fetch("/api/channel/createChannel", {
       method: "POST",
       mode: "cors",
       credentials: "include",
       body: data,
     });
-    if (response.status === 200) {
-      alert("Channel created successfully");
-    } else {
-      alert("Channel creation failed");
-    }
+    const res = await response.json();
+    console.log("hello", res);
+      alert(res.message);
   }
   return (
     <div className="px-8 py-1 ">

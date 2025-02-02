@@ -20,7 +20,9 @@ async function TeamBar() {
     },
     credentials: "include",
   });
-  const { teams: teams1 } = await teams.json();
+  const {array:arr} = await teams.json();
+  //const arr=teams1.array;
+  console.log("teams=",arr );
   return (
     <div className="try w-[6%] flex flex-col justify-between overflow-hidden">
       <div className="w-full text-[2.5rem] h-[100%] flex flex-col items-center gap-2 pt-10">
@@ -33,8 +35,8 @@ async function TeamBar() {
         <Icon href="">
           <AiFillPropertySafety />
         </Icon>
-        {teams1 &&
-          teams1.map((team: team & { _id: string }) => (
+        {arr &&
+          arr.map((team: team & { _id: string }) => (
             <Icon href={`/console?id1=${team._id}`} id={team._id} key={team.name}>
               <Image
                 src={team.logo}

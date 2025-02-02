@@ -6,12 +6,13 @@ export const userContext = createContext<{
     _id: string;
     username: string;
     email: string;
+    image: string;
     firstName: string;
     lastName: string;
     status: string;
     origin:string;
-    team:string;
-    channel:string;
+    teams:string[];
+    channels:string[];
     c_team:string;
     c_channel:string;
   };
@@ -23,9 +24,10 @@ export const userContext = createContext<{
       firstName: string;
       lastName: string;
       status: string;
+      image: string;
       origin:string;
-      team:string;
-      channel:string;
+      teams:string[];
+      channels:string[];
       c_team:string;
       c_channel:string;
     }>
@@ -39,8 +41,9 @@ export const userContext = createContext<{
     lastName: "",
     status: "",
     origin:"",
-    team:"",
-    channel:"",
+    image:"",
+    teams:[],
+    channels:[],
     c_team:"",
     c_channel:""
   },
@@ -56,8 +59,9 @@ export default function Profile({ children }: { children: React.ReactNode }) {
     lastName: string;
     status: string;
     origin:string;
-    team:string;
-    channel:string;
+    image: string;
+    teams:string[];
+    channels:string[];
     c_channel:string;
     c_team:string;
   }>({
@@ -67,9 +71,10 @@ export default function Profile({ children }: { children: React.ReactNode }) {
     firstName: "",
     lastName: "",
     status: "",
+    image:"",
     origin:"",
-    team:"",
-    channel:"",
+    teams:[],
+    channels:[],
     c_channel:"",
     c_team:""
   });

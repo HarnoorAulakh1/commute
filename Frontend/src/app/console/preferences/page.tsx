@@ -7,8 +7,8 @@ export default function Preferences() {
   const [state, fileState] = useState("");
   function handle(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
-    const form = e.currentTarget;
-    const data = new FormData(form);
+    // const form = e.currentTarget;
+    // const data = new FormData(form);
     //console.log(data.get("name"), data.get("email"), data.get("description"));
   }
   return (

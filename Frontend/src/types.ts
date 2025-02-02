@@ -1,4 +1,5 @@
 export interface userInterface{
+    _id?:string,
     username:string,
     password:string,
     email:string,
@@ -10,6 +11,7 @@ export interface userInterface{
 }
 
 export interface messages{
+    _id?:string,
     sender:string,
     team_id:string,
     channel_id:string,
@@ -24,6 +26,7 @@ export interface messages{
 }
 
 export interface channel{
+    _id?:string,
     name:string,
     team_id:string,
     logo:string,
@@ -32,6 +35,7 @@ export interface channel{
 }
 
 export interface team{
+    _id?:string,
     name:string,
     logo:string,
     channels:[channel],

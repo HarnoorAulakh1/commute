@@ -2,6 +2,7 @@ import { Request, Response, NextFunction } from "express";
 
 import jwt from "jsonwebtoken";
 import dotenv from "dotenv";
+import ObjectID from "bson-objectid";
 
 export const check = async (
   req: Request,
@@ -17,6 +18,7 @@ export const check = async (
   //console.log("token",token);
   try {
     const data: any = jwt.verify(token, secret);
+    data["_doc"]._id = ObjectID(data["_doc"]._id);
     req.body.user = data["_doc"];
     //console.log("token",data["_doc"]);
     next();

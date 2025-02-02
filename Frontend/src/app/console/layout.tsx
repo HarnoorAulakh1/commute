@@ -15,7 +15,7 @@ export default async function Layout({
     redirect("/auth");
   }
   //console.log(token);
-  let response, data;
+  let response;
   try {
     response = await fetch("http://localhost:8000/user/checkLogin", {
       method: "GET",
@@ -25,7 +25,7 @@ export default async function Layout({
       },
       credentials: "include",
     });
-    if (response) data = await response.json();
+    // if (response) data = await response.json();
   } catch (e) {
     console.log(e);
   }

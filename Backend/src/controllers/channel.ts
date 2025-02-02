@@ -8,11 +8,29 @@ import { team } from "../models/team.js";
 import { channel as channelInterface } from "../types.js";
 import user from "../models/user.js";
 import { notification } from "../models/notifications.js";
+import ObjectID from "bson-objectid";
 
 //multer
 export const createChannel = async (req: Request, res: Response) => {
-  const { name, description, team_id } = req.body;
-  const {_id}=req.body.user;
+  const { name, description, team_id, creater_id } = req.body;
+  const { _id } = req.body.user;
+  console.log("req.body", req.body);
+  const check = await team.find({
+    _id: ObjectID(team_id),
+    admins: ObjectID(creater_id),
+  });
+  const check1=await channel.find({team_id:ObjectID(team_id),name:name});
+  console.log("check=", check);
+  if (check.length == 0 ) {
+    res
+      .status(401)
+      .send(JSON.stringify({ message: "You are not a admin of this team" }));
+    return;
+  }
+  if(check1.length!=0){
+    res.status(401).send(JSON.stringify({message:"Channel name already exists"}));
+    return;
+  }
   const channel1 = new channel({
     name,
     description,
@@ -27,7 +45,7 @@ export const createChannel = async (req: Request, res: Response) => {
   await channel1.save();
   await user.findByIdAndUpdate(_id, { $push: { channels: channel1._id } });
   await team.findByIdAndUpdate(team_id, { $push: { channels: channel1._id } });
-  res.status(200).send(channel1);
+  res.status(200).send({ message: "Channel created successfully" });
 };
 
 export const deleteChannel = async (req: Request, res: Response) => {

@@ -1,11 +1,13 @@
 import { Request, Response } from "express";
 import { notification } from "../models/notifications.js";
+import ObjectID from "bson-objectid";
 
-export const addNotification=async({user_id,sender_id, message, type}: {user_id: string,sender_id:string, message: string, type: string})=> {
+export const addNotification=async({user_id,sender_id,team_id, message, type}: {user_id: string,sender_id:string,team_id:string, message: string, type: string})=> {
   const data = new notification({
     user_id,
     message,
     type,
+    team_id,
     sender_id
   });
   await data.save();
@@ -22,7 +24,8 @@ export const  getNotification=async (req: Request, res: Response)=> {
 }
 
 export const deleteNotification=async(req: Request, res: Response)=> {
-  const { id } = req.body;
+  const { _id } = req.body;
+  const id=ObjectID(_id)
   await notification.findByIdAndDelete(id);
   res.status(200).send("Notification Deleted");
 }
