@@ -6,13 +6,14 @@ export interface userInterface{
     firstName:string,
     lastName:string,
     image:string,
-    teams:[team]
+    teams:string[],
     status:string
 }
 
 export interface messages{
     _id?:string,
-    sender:string,
+    name:string,
+    sender_id:string,
     team_id:string,
     channel_id:string,
     message:string,
@@ -21,7 +22,7 @@ export interface messages{
         link:string,
         name:string
     },
-    time:Date,
+    time:string,
     image:string,
 }
 

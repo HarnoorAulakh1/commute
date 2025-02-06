@@ -1,19 +1,72 @@
 "use client";
 import { IoMdAttach } from "react-icons/io";
-import { useState } from "react";
+import { useState, useContext, useEffect } from "react";
+import { messages } from "@/types";
+import { userContext } from "../profile";
+import io from "socket.io-client";
 
-function Input() {
-  const [state, fileState] = useState<string | null>(null);
+function Input({
+  set,
+}: {
+  set: React.Dispatch<React.SetStateAction<messages[]>>;
+}) {
+  const [state, fileState] = useState<{
+    name: string;
+    type: string;
+    link: string;
+  }>({ name: "", type: "", link: "" });
+  const { user, dispatch } = useContext(userContext);
+  const { socket } = user;
   function handle(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
     const form = e.currentTarget;
     const data = new FormData(form);
-    const message = data.get("message");
-    console.log(message);
-    console.log(data.get("upload"));
-    fileState("");
+    const msg = data.get("message");
+    const message = {
+      name: user.username,
+      sender_id: user._id,
+      team_id: user.c_team,
+      channel_id: user.c_channel,
+      message: msg as string,
+      time: "0",
+      file: state,
+      image: user.image,
+    };
+    set((x: messages[]) => {
+      if (x && x.length != 0) return [...x, message];
+      return [message];
+    });
+    console.log({...message,file:{type:state.type,link:data.get("upload"),name:state.name}});
+    socket?.emit("send_message", {
+      team_id: user.c_team,
+      channel_id: user.c_channel,
+      message: {...message,file:{type:state.type,link:data.get("upload"),name:state.name}},
+      image: user.image,
+      name: user.username,
+    });
+    //console.log("state=", state);
+    fileState({ name: "", type: "", link: "" });
     form.reset();
   }
+  useEffect(() => {
+    if (!user.c_team || !user.c_channel) return;
+    const socket1 = io("ws://localhost:4000");
+    //console.log(user.c_team, user.c_channel);
+    dispatch((x) => {
+      return { ...x, socket: socket1 };
+    });
+    socket1.on("initial_data", (data) => {
+      //console.log("data=", data);
+      if (user.c_team && user.c_channel)
+        socket1.emit("join_room", {
+          team_id: user.c_team,
+          channel_id: user.c_channel,
+        });
+    });
+    socket1.on("receive_message", (data) => {
+      //console.log("message=", data);
+    });
+  }, [user.c_channel, user.c_team]);
   return (
     <div className="bg-white w-[75%] h-[9rem] rounded-xl overflow-hidden p-3 pr-[1px] pt-1 flex flex-col  gap-1 absolute bottom-[2%] outline-none">
       <form onSubmit={handle}>
@@ -31,7 +84,11 @@ function Input() {
               type="file"
               onChange={(e) => {
                 if (e.target.files && e.target.files.length > 0) {
-                  fileState(e.target.files[0].name);
+                  fileState({
+                    name: e.target.files[0].name,
+                    type: e.target.files[0].type,
+                    link: URL.createObjectURL(e.target.files[0]),
+                  });
                 }
               }}
               name="upload"
@@ -39,8 +96,10 @@ function Input() {
               placeholder="Team Members"
               className="border-2 border-gray-300 rounded-lg p-1 hidden"
             />
-            {state && (
-              <p className="text-[#2c9631] overflow-hidden">{state} uploaded successfully</p>
+            {state.name != "" && (
+              <p className="text-[#2c9631] overflow-hidden">
+                {state.name} uploaded successfully
+              </p>
             )}
           </div>
           <div className="flex flex-row gap-4 justify-end font-bold pr-3">

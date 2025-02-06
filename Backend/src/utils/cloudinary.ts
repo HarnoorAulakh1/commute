@@ -11,11 +11,13 @@ cloudinary.config({
   api_secret: process.env.API_SECRET,
 });
 
-export async function uploadToCloudinary(locaFilePath: string) {
+export async function uploadToCloudinary(locaFilePath: string,type?:string) {
   //console.log("localFilePath :: ", locaFilePath);
   return cloudinary.uploader
     .upload(locaFilePath, {
-      resource_type: "auto",
+      resource_type: type === "pdf" ? "image" : "auto", // 📂 Treat PDFs as images for preview
+      format: type === "pdf" ? "jpg" : undefined, // Convert first page to JPG
+      page: type === "pdf" ? 1 : undefined, // Extract first page for preview
       folder: "commute/uploads",
       use_filename: true,
     })

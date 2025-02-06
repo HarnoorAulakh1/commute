@@ -3,9 +3,10 @@ import user from "./routes/user.js";
 import cors from "cors";
 import channel from "./routes/channel.js";
 import team from "./routes/team.js";
+import message from "./routes/message.js";
 import notification from "./routes/notification.js";
 import cookieParser from "cookie-parser";
-const app = express();
+import {app} from "./socket/socket.js";
 
 app.use(cookieParser());
 
@@ -14,7 +15,7 @@ const port = process.env.PORT || 3000;
 
 app.use(
   cors({
-    origin: "http://localhost:3000", // Replace with your frontend URL
+    origin: ["http://localhost:3000","https://hoppscotch.io"], // Replace with your frontend URL
     methods: ["GET", "POST"],
     credentials: true,
     allowedHeaders: ["Content-Type", "Authorization"], // Include Authorization header
@@ -22,6 +23,7 @@ app.use(
 );
 
 app.use("/user", user);
+app.use("/message", message);
 app.use("/team", team);
 app.use("/channel", channel);
 app.use("/notification", notification);

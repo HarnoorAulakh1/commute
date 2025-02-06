@@ -1,21 +1,21 @@
-import Input from "../../components/messages/input";
 import Message from "../../components/messages/message";
 import Title from "../../components/messages/title";
+import Scroll from "./scroll";
 
 function Chat() {
   return (
     <div className="w-[100%] h-full flex flex-col overflow-hidden items-center border-r-[1px] border-[#dfdfdf]">
       <Title title="Chat"/>
-      <div className="flex flex-col scroll1 gap-8 items-start p-4 overflow-scroll overflow-x-hidden">
+      <Scroll>
         <Message
           file={{ name: "", type: "", link: "" }}
-          img="/img3.jpeg"
+          image="/img3.jpeg"
           name="John Doe"
           time="2"
           message="I have already prepared all styles and components according to our standards during the design phase, so the Ul kit is 90% complete. All that remains is to add some states to the "
         />
         <Message
-          img="/img3.jpeg"
+          image="/img3.jpeg"
           name="John Doe"
           time="2"
           message="I have already prepared all styles and components according to our standards during the design phase, so the Ul kit is 90% complete. All that remains is to add some states to the "
@@ -26,7 +26,7 @@ function Chat() {
           }}
         />
         <Message
-          img="/img3.jpeg"
+          image="/img3.jpeg"
           name="John Doe"
           time="2"
           message="I have already prepared all styles and components according to our standards during the design phase, so the Ul kit is 90% complete. All that remains is to add some states to the "
@@ -36,18 +36,7 @@ function Chat() {
             link: "https://www.bossrides.in/wp-content/uploads/2023/03/harley-davidson-forty-eight-1-min-1.jpg",
           }}
         />
-        
-        <div className="opacity-0 pb-10">
-          <Message
-            file={{ name: "", type: "", link: "" }}
-            img="/img3.jpeg"
-            name="John Doe"
-            time="2"
-            message="I have already prepared all styles and components according to our standards during the design phase, so the Ul kit is 90% complete. All that remains is to add some states to the "
-          />
-        </div>
-      </div>
-      <Input />
+      </Scroll>
     </div>
   );
 }

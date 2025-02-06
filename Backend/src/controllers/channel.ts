@@ -100,7 +100,7 @@ export const getChannels = async (req: Request, res: Response) => {
   const { team_id } = req.query;
   console.log("teams_id", req.query);
   const data = await channel.find({ team_id: team_id });
-  console.log("data", data);
+  //console.log("data", data);
   res.status(200).send(JSON.stringify(data));
 };
 

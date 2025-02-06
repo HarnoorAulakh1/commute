@@ -27,7 +27,7 @@ export default function AddChannel() {
   }
   return (
     <div className="px-8 py-1 ">
-      <h1 className="font-bold text-3xl text-black">Create new Team</h1>{" "}
+      <h1 className="font-bold text-3xl text-black">Create new Channel</h1>{" "}
       <form
         onSubmit={handle}
         className="flex flex-col gap-2 text-[1rem] w-[30rem] mt-5"
@@ -77,7 +77,7 @@ export default function AddChannel() {
             type="submit"
             className="bg-[#1e90ff] text-white p-1 rounded-lg w-[10rem] hover:cursor-pointer"
           >
-            Add Team
+            Add Channel
           </button>
         </div>
       </form>

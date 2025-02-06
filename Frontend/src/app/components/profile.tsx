@@ -15,6 +15,7 @@ export const userContext = createContext<{
     channels:string[];
     c_team:string;
     c_channel:string;
+    socket:ReturnType<typeof io> | null;
   };
   dispatch: React.Dispatch<
     React.SetStateAction<{
@@ -30,6 +31,7 @@ export const userContext = createContext<{
       channels:string[];
       c_team:string;
       c_channel:string;
+      socket:ReturnType<typeof io> | null;
     }>
   >;
 }>({
@@ -45,7 +47,8 @@ export const userContext = createContext<{
     teams:[],
     channels:[],
     c_team:"",
-    c_channel:""
+    c_channel:"",
+    socket: null,
   },
   dispatch: () => {},
 });
@@ -64,6 +67,7 @@ export default function Profile({ children }: { children: React.ReactNode }) {
     channels:string[];
     c_channel:string;
     c_team:string;
+    socket:ReturnType<typeof io> | null;
   }>({
     _id: "",
     username: "",
@@ -76,7 +80,8 @@ export default function Profile({ children }: { children: React.ReactNode }) {
     teams:[],
     channels:[],
     c_channel:"",
-    c_team:""
+    c_team:"",
+    socket:null
   });
 
   useEffect(() => {

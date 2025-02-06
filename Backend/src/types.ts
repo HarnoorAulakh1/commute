@@ -10,11 +10,13 @@ export interface userInterface{
 }
 
 export interface messages{
-    sender:string,
+    name:string,
+    receiver_id:string,
+    sender_id:string,
     team_id:string,
     channel_id:string,
     message:string,
-    file:{
+    file?:{
         type:string,
         link:string,
         name:string

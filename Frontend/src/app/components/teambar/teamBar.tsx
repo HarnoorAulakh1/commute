@@ -8,7 +8,7 @@ import Account from "./account";
 import { cookies } from "next/headers";
 import Image from "next/image";
 import { team } from "../../../types";
-import Icon from "./icon";
+import Icon from "./teams";
 
 async function TeamBar() {
   const cookies1 = await cookies();
@@ -22,22 +22,24 @@ async function TeamBar() {
   });
   const {array:arr} = await teams.json();
   //const arr=teams1.array;
-  console.log("teams=",arr );
+  //console.log("teams=",arr );
+  if(arr.length==0) return <div></div>;
   return (
     <div className="try w-[6%] flex flex-col justify-between overflow-hidden">
       <div className="w-full text-[2.5rem] h-[100%] flex flex-col items-center gap-2 pt-10">
-        <Icon href="/">
+        <Icon >
           <AiFillSkype />
         </Icon>
-        <Icon href="">
+        <Icon >
           <AiFillTwitterCircle />
         </Icon>
-        <Icon href="">
+        <Icon >
           <AiFillPropertySafety />
         </Icon>
         {arr &&
           arr.map((team: team & { _id: string }) => (
-            <Icon href={`/console?id1=${team._id}`} id={team._id} key={team.name}>
+            <Icon id={team._id}  key={team.name}>
+
               <Image
                 src={team.logo}
                 width={40}
