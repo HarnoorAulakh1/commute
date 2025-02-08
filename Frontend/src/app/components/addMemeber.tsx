@@ -98,7 +98,7 @@ export function Avatar({
   );
 }
 
-function Title({ title }: { title: string }) {
+export function Title({ title }: { title: string }) {
   return (
     <div className="text-[#76747f] flex flex-row items-center shadow-sm w-full font-bold justify-between p-4  border-b-[1px] border-[#dfdfdf]">
       <div className="text-[#76747f] flex flex-row items-center w-full h-full font-bold justify-between  ">

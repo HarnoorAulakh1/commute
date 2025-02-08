@@ -12,8 +12,17 @@ export default function Icon({
   const { user, dispatch } = useContext(userContext);
   //console.log("team", id,user.c_team);
 
-  const handle = () => {
-    if (id) dispatch({ ...user, c_team: id });
+  const handle = async() => {
+    const response = await fetch("/api/team/checkAdmin", {
+      method: "GET",
+      mode: "cors",
+      credentials: "include",
+    });
+    const data = await response.json();
+    if(data.admin &&  id)
+      dispatch({ ...user, c_team: id,admin:true });
+    else if(id)
+    dispatch({ ...user, c_team: id });
     //console.log("team", id);
   };
 

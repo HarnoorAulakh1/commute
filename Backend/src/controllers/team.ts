@@ -71,16 +71,7 @@ export const getTeam = async (req: Request, res: Response) => {
 
 //multer
 export const updateTeam = async (req: Request, res: Response) => {
-  const { _id, newData }: { _id: string; newData: teamInterface } = req.body;
-  if (req.file && req.file.path) {
-    const local = req.file["path"];
-    const prev = await team.findById(_id);
-    const result = await uploadToCloudinary(local);
-    newData.logo = result.url;
-    if (prev && prev.logo && prev.logo != "NULL")
-      await deleteFromCloudinary(prev.logo);
-  }
-  await team.replaceOne({ _id }, newData);
+  const { _id, name,discription}: { _id: string,name:string,discription:string} = req.body;
   res
     .status(200)
     .send(JSON.stringify({ message: "Settings updated successfully" }));
@@ -140,3 +131,10 @@ export const searchMembers = async (req: Request, res: Response) => {
   });
   res.status(200).send(JSON.stringify(data));
 };
+
+export const checkAdmin = async (req: Request, res: Response) => {
+  const {_id} = req.body.user;
+  const data = await team.find({admins: { $in: [_id] } });
+  if (data.length > 0) res.status(200).send(JSON.stringify({ admin: true }));
+  else res.status(200).send(JSON.stringify({ admin: false }));
+}

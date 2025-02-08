@@ -21,7 +21,7 @@ function Message({
   message: string;
   file: { type: string; link: string; name: string };
 }) {
-  console.log(sender_id==user_id);
+  console.log(team_id,channel_id);
   return (
     <div className='w-[85%] relative'>
       <div className={`flex flex-row gap-2 w-full  ${sender_id==user_id?"justify-end":"justify-start"}`}>

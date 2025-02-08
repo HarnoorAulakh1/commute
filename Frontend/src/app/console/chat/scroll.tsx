@@ -2,13 +2,14 @@
 import React, { useEffect, useRef, useState } from "react";
 import Message from "../../components/messages/message";
 import Input from "@/app/components/messages/input";
-import { messages } from "@/types";
+import { message, messages } from "@/types";
 import { useContext } from "react";
 import { userContext } from "@/app/components/profile";
+import io from "socket.io-client";
 
-export default function Scroll({ children }: { children: React.ReactNode }) {
+export default function Scroll() {
   const ref = useRef<HTMLDivElement>(null);
-  const { user } = useContext(userContext);
+  const { user, dispatch } = useContext(userContext);
   const [messages, setMessages] = useState<messages[]>([]);
   useEffect(() => {
     if (ref.current) {
@@ -31,10 +32,31 @@ export default function Scroll({ children }: { children: React.ReactNode }) {
       else console.log("Error in fetching messages");
     };
     handle();
-  }, [user.c_team, user.c_channel,messages]);
+    const socket1 = io("ws://localhost:4000");
+    socket1.on("initial_data", () => {
+      //console.log("data=", data);
+      if (user.c_team && user.c_channel)
+        socket1.emit("join_room", {
+          team_id: user.c_team,
+          channel_id: user.c_channel,
+        });
+    });
+    dispatch((x) => {
+      return { ...x, socket: socket1 };
+    });
+    socket1.on("receive_message", (data: message) => {
+      console.log("data=", data);
+      setMessages((x: message[]) => {
+        if (x && x.length != 0) return [...x, data];
+        return [data];
+      });
+    });
+    return () => {
+      socket1.disconnect();
+    };
+  }, [user.c_team, user.c_channel]);
   return (
     <div className="scroll1 flex flex-col scroll1 gap-8 items-start p-4 overflow-scroll overflow-x-hidden">
-      {children}
       {messages.map((x, i) => (
         <Message
           user_id={user._id}
@@ -52,6 +74,7 @@ export default function Scroll({ children }: { children: React.ReactNode }) {
 
       <div ref={ref} className="opacity-0 pb-10">
         <Message
+          user_id={user._id}
           channel_id="212121"
           team_id="2121212"
           sender_id="21212"

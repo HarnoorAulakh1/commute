@@ -50,3 +50,19 @@ export interface team{
     description:string,
     created_at:Date
 }
+
+export interface message{
+    _id?:string,
+    name:string,
+    sender_id:string,
+    team_id:string,
+    channel_id:string,
+    message:string,
+    file:{
+        type:string,
+        link:string,
+        name:string
+    },
+    time:string,
+    image:string,
+}

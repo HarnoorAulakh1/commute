@@ -7,6 +7,7 @@ import user from "../models/user.js";
 import jwt from "jsonwebtoken";
 import { uploadToCloudinary } from "../utils/cloudinary.js";
 import fs from "fs";
+import ObjectID from "bson-objectid";
 
 export const login = async (req: Request, res: Response) => {
   const { username, password } = req.body;
@@ -111,8 +112,18 @@ export const getUser = async (req: Request, res: Response) => {
 };
 
 export const getUsers = async (req: Request, res: Response) => {
-  const { username } = req.query;
-  const data = await user.find({ username: { $regex: username,$options:'i'} });
+  const { username, team_id } = req.query;
+  let data;
+  if (typeof team_id == "string" && team_id != "undefined" && team_id != "null" && team_id != "") {
+    data = await user.find({
+      username: { $regex: username, $options: "i" },
+      teams: ObjectID(team_id),
+    });
+  } else {
+    data = await user.find({
+      username: { $regex: username, $options: "i" },
+    });
+  }
   res.status(200).send(JSON.stringify(data));
 };
 

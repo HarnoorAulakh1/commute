@@ -1,9 +1,8 @@
 "use client";
 import { IoMdAttach } from "react-icons/io";
-import { useState, useContext, useEffect } from "react";
+import { useState, useContext} from "react";
 import { messages } from "@/types";
 import { userContext } from "../profile";
-import io from "socket.io-client";
 
 function Input({
   set,
@@ -15,7 +14,7 @@ function Input({
     type: string;
     link: string;
   }>({ name: "", type: "", link: "" });
-  const { user, dispatch } = useContext(userContext);
+  const { user } = useContext(userContext);
   const { socket } = user;
   function handle(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
@@ -36,7 +35,7 @@ function Input({
       if (x && x.length != 0) return [...x, message];
       return [message];
     });
-    console.log({...message,file:{type:state.type,link:data.get("upload"),name:state.name}});
+    //console.log({...message,file:{type:state.type,link:data.get("upload"),name:state.name}});
     socket?.emit("send_message", {
       team_id: user.c_team,
       channel_id: user.c_channel,
@@ -44,29 +43,10 @@ function Input({
       image: user.image,
       name: user.username,
     });
-    //console.log("state=", state);
+    console.log("state=", message.message);
     fileState({ name: "", type: "", link: "" });
     form.reset();
   }
-  useEffect(() => {
-    if (!user.c_team || !user.c_channel) return;
-    const socket1 = io("ws://localhost:4000");
-    //console.log(user.c_team, user.c_channel);
-    dispatch((x) => {
-      return { ...x, socket: socket1 };
-    });
-    socket1.on("initial_data", (data) => {
-      //console.log("data=", data);
-      if (user.c_team && user.c_channel)
-        socket1.emit("join_room", {
-          team_id: user.c_team,
-          channel_id: user.c_channel,
-        });
-    });
-    socket1.on("receive_message", (data) => {
-      //console.log("message=", data);
-    });
-  }, [user.c_channel, user.c_team]);
   return (
     <div className="bg-white w-[75%] h-[9rem] rounded-xl overflow-hidden p-3 pr-[1px] pt-1 flex flex-col  gap-1 absolute bottom-[2%] outline-none">
       <form onSubmit={handle}>

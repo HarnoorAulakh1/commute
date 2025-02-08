@@ -17,8 +17,22 @@ import { GrChannel } from "react-icons/gr";
 import Popup from "../../utilities/popup";
 import AddChannel from "../addChannel";
 import Channels from "./channels";
+import { cookies } from "next/headers";
+import Members from "./members";
 
 async function Sidebar() {
+  const cookies1 = await cookies();
+  let admin = false;
+  const response = await fetch("http://localhost:8000/team/checkAdmin", {
+    method: "GET",
+    mode: "cors",
+    headers: {
+      Authorization: JSON.stringify(cookies1.get("token")),
+    },
+    credentials: "include",
+  });
+  const data = await response.json();
+  admin = data.admin;
   return (
     <div className="flex flex-col gap-3 w-[20%] h-full p-3 border-r-[1px] border-[#dfdfdf]">
       <div className="flex flex-row justify-between items-center p-2">
@@ -32,10 +46,12 @@ async function Sidebar() {
         >
           <div className="bg-[#ffffff] text-[#8c8c8c] rounded-xl flex flex-col w-max h-max absolute ">
             <div className="flex flex-col p-2 py-4 gap-2">
-              <Tab href="/console/preferences" text="Preferences">
-                <IoSettingsOutline />
-              </Tab>
-              <Tab href="/" text="Manage members">
+              {admin && (
+                <Tab href="/console/preferences" text="Preferences">
+                  <IoSettingsOutline />
+                </Tab>
+              )}
+              <Tab href="/member" text="Manage members">
                 <MdManageAccounts />
               </Tab>
               <Tab href="/channel" text="Create channels">
@@ -82,7 +98,6 @@ async function Sidebar() {
   );
 }
 
-
 function Tab({
   children,
   href,
@@ -94,7 +109,7 @@ function Tab({
 }) {
   return (
     <>
-      {href == "/channel" ? (
+      {href == "/channel" || href == "/member" ? (
         <Popup
           trigger={
             <div className="flex flex-row hover:bg-[#ebeced] items-center gap-2 pl-2 rounded-lg hover:cursor-pointer">
@@ -103,10 +118,13 @@ function Tab({
             </div>
           }
         >
-          <AddChannel />
+          {href == "/channel" ? <AddChannel /> : <Members />}
         </Popup>
       ) : (
-        <Link href={href} className="flex flex-row hover:bg-[#ebeced] items-center gap-2 pl-2 rounded-lg hover:cursor-pointer">
+        <Link
+          href={href}
+          className="flex flex-row hover:bg-[#ebeced] items-center gap-2 pl-2 rounded-lg hover:cursor-pointer"
+        >
           <div className="text-xl">{children}</div>
           <h1 className="text-md ">{text}</h1>
         </Link>

@@ -15,6 +15,7 @@ export const userContext = createContext<{
     channels:string[];
     c_team:string;
     c_channel:string;
+    admin:boolean;
     socket:ReturnType<typeof io> | null;
   };
   dispatch: React.Dispatch<
@@ -31,6 +32,7 @@ export const userContext = createContext<{
       channels:string[];
       c_team:string;
       c_channel:string;
+      admin:boolean;
       socket:ReturnType<typeof io> | null;
     }>
   >;
@@ -48,6 +50,7 @@ export const userContext = createContext<{
     channels:[],
     c_team:"",
     c_channel:"",
+    admin:false,
     socket: null,
   },
   dispatch: () => {},
@@ -67,6 +70,7 @@ export default function Profile({ children }: { children: React.ReactNode }) {
     channels:string[];
     c_channel:string;
     c_team:string;
+    admin:boolean;
     socket:ReturnType<typeof io> | null;
   }>({
     _id: "",
@@ -81,6 +85,7 @@ export default function Profile({ children }: { children: React.ReactNode }) {
     channels:[],
     c_channel:"",
     c_team:"",
+    admin:false,
     socket:null
   });
 

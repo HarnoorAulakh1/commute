@@ -4,6 +4,7 @@ import {
   getTeam,
   updateTeam,
   deleteTeam,
+  checkAdmin,
 } from "../controllers/team.js";
 import {
   addMember,
@@ -26,5 +27,6 @@ router.route("/removeMember").delete(check,removeMember);
 router.route("/addMember").post(check,addMember);
 router.route("/sendRequest").post(check,sendRequest);
 router.route("/searchMembers").get(check,searchMembers);
+router.route("/checkAdmin").get(check,checkAdmin);
 
 export default router;

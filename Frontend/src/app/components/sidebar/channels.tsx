@@ -1,5 +1,4 @@
 "use client";
-import { MdAssistant } from "react-icons/md";
 import List from "../list";
 import Image from "next/image";
 import Link from "next/link";
@@ -47,21 +46,6 @@ function Channels() {
             </Tab2>
           )
         )}
-        <Tab2 href="/console/chat" text="General">
-          <Image alt="fire" src="/fire.png" width={20} height={20} />
-        </Tab2>
-        <Tab2 href="/console/chat" text="Random">
-          <MdAssistant />
-        </Tab2>
-        <Tab2 href="/console/chat" text="Design">
-          <MdAssistant />
-        </Tab2>
-        <Tab2 href="/console/chat" text="Development">
-          <MdAssistant />
-        </Tab2>
-        <Tab2 href="/console/chat" text="Marketing">
-          <MdAssistant />
-        </Tab2>
       </div>
     </List>
   );

@@ -20,26 +20,24 @@ async function TeamBar() {
     },
     credentials: "include",
   });
-  const {array:arr} = await teams.json();
+  const { array: arr } = await teams.json();
   //const arr=teams1.array;
   //console.log("teams=",arr );
-  if(arr.length==0) return <div></div>;
   return (
     <div className="try w-[6%] flex flex-col justify-between overflow-hidden">
       <div className="w-full text-[2.5rem] h-[100%] flex flex-col items-center gap-2 pt-10">
-        <Icon >
+        <Icon>
           <AiFillSkype />
         </Icon>
-        <Icon >
+        <Icon>
           <AiFillTwitterCircle />
         </Icon>
-        <Icon >
+        <Icon>
           <AiFillPropertySafety />
         </Icon>
         {arr &&
           arr.map((team: team & { _id: string }) => (
-            <Icon id={team._id}  key={team.name}>
-
+            <Icon id={team._id} key={team.name}>
               <Image
                 src={team.logo}
                 width={40}
@@ -51,7 +49,9 @@ async function TeamBar() {
           ))}
         <Popup
           trigger={
-            <div className={`flex flex-row items-center relative gap-2 hover:cursor-pointer`}>
+            <div
+              className={`flex flex-row items-center relative gap-2 hover:cursor-pointer`}
+            >
               <div className={`p-1 bg-white rounded-lg`}>
                 <FaPlus />
               </div>
@@ -62,12 +62,10 @@ async function TeamBar() {
         </Popup>
       </div>
       <div className="mx-2 mb-5">
-        {" "}
-        <Account/>
+        <Account />
       </div>
     </div>
   );
 }
-
 
 export default TeamBar;
