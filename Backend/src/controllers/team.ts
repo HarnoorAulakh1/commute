@@ -6,23 +6,23 @@ import user from "../models/user.js";
 import { check } from "../middleware/auth";
 import { notification } from "../models/notifications.js";
 import { deleteFromCloudinary } from "../utils/cloudinary.js";
-import { populate } from '../../node_modules/dotenv/lib/main.d';
+import { populate } from "../../node_modules/dotenv/lib/main.d";
 import { addNotification } from "./notifications.js";
-import ObjectId  from 'bson-objectid';
-import mongoose from 'mongoose';
-import ObjectID from "bson-objectid";
+import ObjectId from "bson-objectid";
 
 //multer
 export const createTeam = async (req: Request, res: Response) => {
   const { name, description } = req.body;
   const { username } = req.body.user;
-  const data=await user.findOne({username});
-  const _id=data?._id;
+  const data = await user.findOne({ username });
+  const _id = data?._id;
   //console.log("req.body", req.body);
-  const check=await team.find({name});
+  const check = await team.find({ name });
   //console.log("req.body.user", req.body.user);
-  if(check.length>0){
-    res.status(401).send(JSON.stringify({message:"Team name already exists"}));
+  if (check.length > 0) {
+    res
+      .status(401)
+      .send(JSON.stringify({ message: "Team name already exists" }));
     return;
   }
   let team1 = new team({
@@ -39,7 +39,7 @@ export const createTeam = async (req: Request, res: Response) => {
   } else {
     team1.logo = "NULL";
   }
-  team1=await team1.save();
+  team1 = await team1.save();
   await user.findByIdAndUpdate(_id, { $push: { teams: team1._id } });
   console.log("CHECK", _id);
   //console.log("team1", team1);
@@ -48,20 +48,23 @@ export const createTeam = async (req: Request, res: Response) => {
 
 export const getTeams = async (req: Request, res: Response) => {
   const { username } = req.body.user;
-  const userData = await user.findOne({ username});
-  const _id=userData?._id;
+  const userData = await user.findOne({ username });
+  const _id = userData?._id;
   const data = await user.findOne({ _id }).populate("teams");
   //console.log("data=", data);
-  if(!data || data.teams.length==0){
-    res.status(200).send(JSON.stringify({array:[]}));
-    return
+  if (!data || data.teams.length == 0) {
+    res.status(200).send(JSON.stringify({ array: [] }));
+    return;
   }
-  res.status(200).send(JSON.stringify({array:data.teams}));
+  res.status(200).send(JSON.stringify({ array: data.teams }));
 };
 
 export const getTeam = async (req: Request, res: Response) => {
-  const { _id } = req.body.user;
-  const data: teamInterface | null = await team.findById(_id);
+  const { id } = req.query;
+  const data: teamInterface | null = await team.findById(
+    ObjectId(id as string)
+  );
+  //console.log("id", data);
   if (data) {
     res.status(200).send(JSON.stringify(data));
   } else {
@@ -71,7 +74,11 @@ export const getTeam = async (req: Request, res: Response) => {
 
 //multer
 export const updateTeam = async (req: Request, res: Response) => {
-  const { _id, name,discription}: { _id: string,name:string,discription:string} = req.body;
+  const {
+    _id,
+    name,
+    discription,
+  }: { _id: string; name: string; discription: string } = req.body;
   res
     .status(200)
     .send(JSON.stringify({ message: "Settings updated successfully" }));
@@ -91,27 +98,63 @@ export const deleteTeam = async (req: Request, res: Response) => {
 
 export const removeMember = async (req: Request, res: Response) => {
   const { team_id, member_id } = req.body;
-  await team.findByIdAndUpdate(team_id, { $pull: { members: member_id } });
-  await user.findByIdAndUpdate(member_id, { $pull: { teams: team_id } });
+  await team.findByIdAndUpdate(team_id, {
+    $pull: { members: ObjectId(member_id) },
+  });
+  await user.findByIdAndUpdate(member_id, {
+    $pull: { teams: ObjectId(team_id) },
+  });
+  await team.findByIdAndUpdate(team_id, {
+    $pull: { admins: ObjectId(member_id) },
+  });
   res.status(200).send({ message: "Member removed successfully" });
 };
 
+export const makeAdmin = async (req: Request, res: Response) => {
+  const { team_id, member_id } = req.body;
+  const check = await team.find({
+    _id: team_id,
+    admins: { $in: [ObjectId(member_id)] },
+  });
+  if (check.length > 0) {
+    res.status(401).send({ message: "Member is already an admin" });
+    return;
+  }
+  await team.findByIdAndUpdate(team_id, {
+    $push: { admins: ObjectId(member_id) },
+  });
+  res.status(200).send({ message: "Member made admin successfully" });
+};
+
+export const removeAdmin = async (req: Request, res: Response) => {
+  const { team_id, member_id } = req.body;
+  await team.findByIdAndUpdate(team_id, {
+    $pull: { admins: ObjectId(member_id) },
+  });
+  res.status(200).send({ message: "Admin removed successfully" });
+};
+
 export const sendRequest = async (req: Request, res: Response) => {
-  const { team_id, user_id,sender_id } = req.body;
-  const _id1=ObjectId(sender_id);
-  const _id2=ObjectId(user_id);
-  addNotification({user_id,sender_id,team_id, message: `You have been invited to join the team`, type: "invite" });
+  const { team_id, user_id, sender_id } = req.body;
+  const _id1 = ObjectId(sender_id);
+  const _id2 = ObjectId(user_id);
+  addNotification({
+    user_id,
+    sender_id,
+    team_id,
+    message: `You have been invited to join the team`,
+    type: "invite",
+  });
   res.status(200).send(JSON.stringify({ message: "Invite sent successfully" }));
 };
 
 export const addMember = async (req: Request, res: Response) => {
-  let { team_id, member_id,notification_id } = req.body;
-  team_id=ObjectId(team_id);
-  member_id=ObjectId(member_id);
-  notification_id=ObjectId(notification_id);
-  //console.log(req.body);
-  const check = await team.find({ _id:team_id, members: { $in: member_id } });
-  await notification.deleteOne({_id:notification_id});
+  let { team_id, member_id, notification_id } = req.body;
+  team_id = ObjectId(team_id);
+  member_id = ObjectId(member_id);
+  notification_id = ObjectId(notification_id);
+  const check = await team.find({ _id: team_id, members: { $in: member_id } });
+  await notification.deleteOne({ _id: notification_id });
   if (check.length > 0) {
     res.status(401).send(JSON.stringify({ message: "Member already exists" }));
     return;
@@ -133,8 +176,12 @@ export const searchMembers = async (req: Request, res: Response) => {
 };
 
 export const checkAdmin = async (req: Request, res: Response) => {
-  const {_id} = req.body.user;
-  const data = await team.find({admins: { $in: [_id] } });
+  let { id, team_id } = req.query;
+  console.log(req.query);
+  const data = await team.find({
+    _id: ObjectId(team_id as string),
+    admins: { $in: [ObjectId(id as string)] },
+  });
   if (data.length > 0) res.status(200).send(JSON.stringify({ admin: true }));
   else res.status(200).send(JSON.stringify({ admin: false }));
-}
+};

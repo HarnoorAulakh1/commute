@@ -22,7 +22,7 @@ export interface messages{
         link:string,
         name:string
     },
-    time:string,
+    created_at?:Date,
     image:string,
 }
 
@@ -31,6 +31,7 @@ export interface channel{
     name:string,
     team_id:string,
     logo:string,
+    description:string,
     members:[userInterface]
     messages:[messages]
 }

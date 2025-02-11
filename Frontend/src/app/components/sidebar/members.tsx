@@ -20,7 +20,7 @@ function Members() {
 export default Members;
 
 function AddMember() {
-  const [users, setUsers] = useState([]);
+  const [users, setUsers] = useState<(userInterface & {_id:string})[]>([]);
   const [username, setUsername] = useState("");
   const { user } = useContext(userContext);
   useEffect(() => {
@@ -34,6 +34,7 @@ function AddMember() {
         }
       );
       const data = await response.json();
+      console.log(data);
       if (response.status === 200) setUsers(data);
     }
     handle();
@@ -53,7 +54,7 @@ function AddMember() {
           />
           <div className="h-full overflow-auto overflow-x-hidden relative">
             {users.map((user: userInterface & { _id: string }) => (
-              <User user={user} key={user._id} />
+              <User user={user} key={user._id} set={setUsers}/>
             ))}
           </div>
         </div>
@@ -62,50 +63,87 @@ function AddMember() {
   );
 }
 
-function User({ user }: { user: userInterface & { _id: string } }) {
+function User({ user,set }: { user: userInterface & { _id: string },set:React.Dispatch<React.SetStateAction<(userInterface & {_id:string})[]> > }) {
   const [show, setShow] = useState(false);
+  const { user: user1 } = useContext(userContext);
+  const [admin, setAdmin] = useState(false);
+  useEffect(() => {
+    async function handle(){
+    const response = await fetch(`http://localhost:8000/team/checkAdmin?id=${user._id}&team_id=${user1.c_team}`, {
+      method: "GET",
+      mode: "cors",
+      credentials: "include",
+    });
+    const data = await response.json();
+    setAdmin(data.admin);
+  }
+  handle();
+  }, [user._id, user1.c_team]);
   return (
-    <div key={user._id} className="flex flex-row items-center justify-between hover:bg-[#e7e7e7]">
-      <div  
+    <div
+      key={user._id}
+      className="flex flex-row items-center justify-between hover:bg-[#e7e7e7]"
+    >
+      <div
         onClick={() => {
           setShow((x) => !x);
         }}
         className="flex flex-row items-center gap-4 px-5 hover:cursor-pointer"
       >
         <Avatar src={user.image} username={user.username} />
+
+        <div className="flex flex-col">
         <span>{user.username}</span>
+        {admin && <span className="text-sm text-gray-400">admin</span>}
+        </div>
       </div>
-      <div className="felx flex-col gap-2">
-        <HiDotsVertical onClick={() => setShow((x) => !x)} />
-        {show && <Options _id={user._id} />}
-      </div>
+      {user1.admin && user1._id != user._id && (
+        <div className="felx flex-col gap-2">
+          <HiDotsVertical onClick={() => setShow((x) => !x)} />
+          {show && <Options admin={admin} _id={user._id} set={set}/>}
+        </div>
+      )}
     </div>
   );
 }
 
-function Options({ _id }: { _id: string }) {
+function Options({ _id,admin,set}: { _id: string,admin:boolean,set:React.Dispatch<React.SetStateAction<(userInterface & {_id:string})[]> > }) {
   const { user } = useContext(userContext);
-  console.log("admin=", user.admin);
   async function removeMember() {
-    const response = await fetch(`/api/team/removeMember?id=${_id}`, {
-      method: "GET",
+    const response = await fetch(`/api/team/removeMember`, {
+      method: "DELETE",
       mode: "cors",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ member_id: _id, team_id: user.c_team }),
       credentials: "include",
     });
-    if (response.status == 200) console.log("Successfully removed member");
+    if (response.status == 200){
+       console.log("Successfully removed member");
+        set((x)=>x.filter((x1)=>x1._id!=_id));
+      }
   }
   async function makeAdmin() {
     const response = await fetch(`/api/team/makeAdmin?id=${_id}`, {
-      method: "GET",
+      method: "POST",
       mode: "cors",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ member_id: _id, team_id: user.c_team }),
       credentials: "include",
     });
     if (response.status == 200) console.log("Member made admin");
   }
   async function removeAdmin() {
     const response = await fetch(`/api/team/removeAdmin?id=${_id}`, {
-      method: "GET",
+      method: "DELETE",
       mode: "cors",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ member_id: _id, team_id: user.c_team }),
       credentials: "include",
     });
     if (response.status == 200) console.log("Admin removed");
@@ -118,18 +156,18 @@ function Options({ _id }: { _id: string }) {
       >
         Remove Member
       </button>
-      <button
+     {!admin &&  <button
         onClick={makeAdmin}
         className="hover:cursor-pointer hover:bg-slate-200 w-full text-start px-2"
       >
         Make Admin
-      </button>
-      <button
+      </button>}
+      {admin && <button
         onClick={removeAdmin}
         className="hover:cursor-pointer hover:bg-slate-200 w-full text-start px-2"
       >
         Remove Admin
-      </button>
+      </button>}
     </div>
   );
 }

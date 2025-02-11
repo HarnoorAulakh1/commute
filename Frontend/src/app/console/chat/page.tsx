@@ -1,10 +1,10 @@
-import Title from "../../components/messages/title";
 import Scroll from "./scroll";
+import Title from "./title";
 
 function Chat() {
   return (
     <div className="w-[100%] h-full flex flex-col overflow-hidden items-center border-r-[1px] border-[#dfdfdf]">
-      <Title title="Chat"/>
+      <Title/>
       <Scroll/>
     </div>
   );

@@ -11,7 +11,6 @@ import { useRouter } from "next/navigation";
 function Account() {
   const { user } = useContext(userContext);
   const router=useRouter();
-  console.log(user);
   async function handle() {
     const response = await fetch("http://localhost:8000/user/logout", {
       method: "POST",

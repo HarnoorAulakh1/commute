@@ -26,7 +26,7 @@ export default function Tab({
   async function handle(choice: number) {
     setState(false);
     if (choice == 1) {
-      const response = await fetch(`http://localhost:8000/team/addMember`, {
+      const response = await fetch(`/api/team/addMember`, {
         method: "POST",
         mode: "cors",
         credentials: "include",
@@ -38,12 +38,16 @@ export default function Tab({
       const data = await response.json();
       console.log("hello", data);
     } else {
+      console.log("delete=",id);
       const response = await fetch(
-        `http://localhost:8000/notification/deleteNotification`,
+        `/api/notification/deleteNotification`,
         {
-          method: "POST",
+          method: "DELETE",
           mode: "cors",
           credentials: "include",
+          headers: {
+            "Content-Type": "application/json",
+          },
           body: JSON.stringify({ id }),
         }
       );

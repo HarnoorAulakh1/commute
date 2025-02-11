@@ -29,7 +29,7 @@ export default function AddMember() {
     handle();
   }, [username]);
   return (
-    <div className="w-[25%] h-full flex flex-col items-center gap-2">
+    <div className="w-full h-full flex flex-col items-center gap-2">
       <Title title="Profiles" />
       <form>
         <input

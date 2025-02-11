@@ -1,10 +1,5 @@
-import { MdAssistant } from "react-icons/md";
-import { CiFileOn } from "react-icons/ci";
-import { CiBookmarkCheck } from "react-icons/ci";
 import { HiOutlineInbox } from "react-icons/hi";
-import { LuMessageSquareMore } from "react-icons/lu";
 import { CiSearch } from "react-icons/ci";
-import { FaCaretDown } from "react-icons/fa";
 import Link from "next/link";
 import Menu from "../menu";
 import { IoSettingsOutline } from "react-icons/io5";
@@ -17,40 +12,28 @@ import { GrChannel } from "react-icons/gr";
 import Popup from "../../utilities/popup";
 import AddChannel from "../addChannel";
 import Channels from "./channels";
-import { cookies } from "next/headers";
 import Members from "./members";
+import { CheckAdmin } from "./chechAdmin";
+import Logout from "./logout";
+import GetTeam from "./getTeam";
 
 async function Sidebar() {
-  const cookies1 = await cookies();
-  let admin = false;
-  const response = await fetch("http://localhost:8000/team/checkAdmin", {
-    method: "GET",
-    mode: "cors",
-    headers: {
-      Authorization: JSON.stringify(cookies1.get("token")),
-    },
-    credentials: "include",
-  });
-  const data = await response.json();
-  admin = data.admin;
   return (
-    <div className="flex flex-col gap-3 w-[20%] h-full p-3 border-r-[1px] border-[#dfdfdf]">
+    <div className="flex flex-col gap-3 w-[12rem] md:w-full h-full p-3 border-r-[1px] bg-[#f3f2f2] border-[#dfdfdf]">
       <div className="flex flex-row justify-between items-center p-2">
         <Menu
           trigger={
-            <div className="flex flex-row items-center hover:cursor-pointer">
-              <h1 className="font-bold text-2xl ">Skype</h1>
-              <FaCaretDown />
-            </div>
+            <GetTeam/>
           }
         >
           <div className="bg-[#ffffff] text-[#8c8c8c] rounded-xl flex flex-col w-max h-max absolute ">
             <div className="flex flex-col p-2 py-4 gap-2">
-              {admin && (
+              <CheckAdmin>
                 <Tab href="/console/preferences" text="Preferences">
                   <IoSettingsOutline />
                 </Tab>
-              )}
+              </CheckAdmin>
+
               <Tab href="/member" text="Manage members">
                 <MdManageAccounts />
               </Tab>
@@ -68,16 +51,18 @@ async function Sidebar() {
               <Tab href="/" text="Help">
                 <IoHelpBuoyOutline />
               </Tab>
-              <Tab href="/" text="Logout">
-                <FiLogOut />
-              </Tab>
+              <Logout>
+                <Tab href="/" text="Logout">
+                  <FiLogOut />
+                </Tab>
+              </Logout>
             </div>
           </div>
         </Menu>
         <CiSearch className="text-2xl hover:cursor-pointer" />
       </div>
       <div className="flex flex-col gap-2 text-[#403e54]">
-        <Tab href="/" text="Activity">
+        {/* <Tab href="/" text="Activity">
           <MdAssistant />
         </Tab>
         <Tab href="/" text="Drafts">
@@ -85,12 +70,9 @@ async function Sidebar() {
         </Tab>
         <Tab href="/console/saved" text="Saved items">
           <CiBookmarkCheck />
-        </Tab>
+        </Tab> */}
         <Tab href={`/console/inbox`} text="Inbox">
           <HiOutlineInbox />
-        </Tab>
-        <Tab href="/console/dm" text="Direct Messages">
-          <LuMessageSquareMore />
         </Tab>
       </div>
       <Channels />

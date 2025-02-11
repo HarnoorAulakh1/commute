@@ -24,9 +24,10 @@ export const  getNotification=async (req: Request, res: Response)=> {
 }
 
 export const deleteNotification=async(req: Request, res: Response)=> {
-  const { _id } = req.body;
-  const id=ObjectID(_id)
-  await notification.findByIdAndDelete(id);
-  res.status(200).send("Notification Deleted");
+  const { id } = req.body;
+  const id1=ObjectID(id)
+  console.log("delete",id1);
+  await notification.findByIdAndDelete(id1);
+  res.status(200).send(JSON.stringify({message:"Notification Deleted"}));
 }
 

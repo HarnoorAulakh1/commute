@@ -26,11 +26,11 @@ export default function AddChannel() {
       alert(res.message);
   }
   return (
-    <div className="px-8 py-1 ">
+    <div className="md:px-8 py-1 md:w-[35rem] ">
       <h1 className="font-bold text-3xl text-black">Create new Channel</h1>{" "}
       <form
         onSubmit={handle}
-        className="flex flex-col gap-2 text-[1rem] w-[30rem] mt-5"
+        className="flex flex-col gap-2 text-[1rem] mt-5"
       >
         <div className="flex flex-row gap-2 items-start justify-between">
           <label className="font-semibold text-lg">Channel Name:</label>

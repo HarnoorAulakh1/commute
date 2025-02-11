@@ -1,8 +1,10 @@
 import Image from "next/image";
+import TimeAgo from 'javascript-time-ago'
+import en from 'javascript-time-ago/locale/en'
+
+TimeAgo.addDefaultLocale(en);
 
 function Message({
-  channel_id,
-  team_id,
   sender_id,
   user_id,
   image,
@@ -17,11 +19,14 @@ function Message({
   sender_id: string;
   image: string;
   name: string;
-  time: string;
+  time?: Date;
   message: string;
   file: { type: string; link: string; name: string };
 }) {
-  console.log(team_id,channel_id);
+  //console.log("time=",time);
+  const date = new Date(time || Date.now());
+  const timeAgo = new TimeAgo('en-US')
+  const ago = timeAgo.format(date);
   return (
     <div className='w-[85%] relative'>
       <div className={`flex flex-row gap-2 w-full  ${sender_id==user_id?"justify-end":"justify-start"}`}>
@@ -38,7 +43,7 @@ function Message({
         <div className="flex flex-col items-start">
           <div className="flex flex-row gap-2 items-baseline">
             <p className="text-black font-bold">{name}</p>
-            <p className="text-[#908f9e] text-sm">{time}d ago</p>
+            <p className="text-[#908f9e] text-sm">{ago}</p>
           </div>
           <p className="text-[#403e54] h-full">{message}</p>
         </div>

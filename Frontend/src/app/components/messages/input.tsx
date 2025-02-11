@@ -27,7 +27,6 @@ function Input({
       team_id: user.c_team,
       channel_id: user.c_channel,
       message: msg as string,
-      time: "0",
       file: state,
       image: user.image,
     };

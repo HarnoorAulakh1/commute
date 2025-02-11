@@ -19,16 +19,18 @@ export const createChannel = async (req: Request, res: Response) => {
     _id: ObjectID(team_id),
     admins: ObjectID(creater_id),
   });
-  const check1=await channel.find({team_id:ObjectID(team_id),name:name});
+  const check1 = await channel.find({ team_id: ObjectID(team_id), name: name });
   console.log("check=", check);
-  if (check.length == 0 ) {
+  if (check.length == 0) {
     res
       .status(401)
       .send(JSON.stringify({ message: "You are not a admin of this team" }));
     return;
   }
-  if(check1.length!=0){
-    res.status(401).send(JSON.stringify({message:"Channel name already exists"}));
+  if (check1.length != 0) {
+    res
+      .status(401)
+      .send(JSON.stringify({ message: "Channel name already exists" }));
     return;
   }
   const channel1 = new channel({
@@ -104,7 +106,7 @@ export const getChannels = async (req: Request, res: Response) => {
 };
 
 export const getChannel = async (req: Request, res: Response) => {
-  const { _id } = req.body;
-  const data = await channel.findById(_id);
-  res.status(200).send(data);
+  const { id } = req.query;
+  const data = await channel.findById(ObjectID(id as string));
+  res.status(200).json(data);
 };

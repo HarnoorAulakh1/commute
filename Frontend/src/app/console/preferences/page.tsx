@@ -1,11 +1,6 @@
 "use client";
 import Title from "../../components/messages/title";
-import { useState, useEffect } from "react";
-import { Avatar } from "../../components/addMemeber";
-import { userInterface } from "@/types";
-import { useContext } from "react";
-import { ImCross } from "react-icons/im";
-import { userContext } from "../../components/profile";
+import { useState } from "react";
 
 export default function Preferences() {
   //const [members, setMembers] = useState(["kartik", "shubham","lichi","rahul"]);
@@ -66,18 +61,7 @@ export default function Preferences() {
               )}
             </div>
           </div>
-          <h1 className="font-bold">
-            2. <span className="underline">Manage Members</span>
-          </h1>
-          <div className="flex flex-wrap gap-[2rem] pl-8">
-            <AddMember />
-          </div>
-          <h1 className="font-bold">
-            3. <span className="underline">Manage Admins</span>
-          </h1>
-          <div className="flex flex-wrap gap-[2rem] pl-8">
-            <AddAdmin />
-          </div>
+         
           <button
             type="submit"
             className="bg-[#3b82f6] text-white px-4 py-2 rounded-lg"
@@ -90,151 +74,3 @@ export default function Preferences() {
   );
 }
 
-function AddMember() {
-  const [delUsers, del] = useState<(userInterface & { _id: string })[]>([]);
-  const [users, setUsers] = useState([]);
-  const [username, setUsername] = useState("");
-  const {user}=useContext(userContext);
-  useEffect(() => {
-    async function handle() {
-      const response = await fetch(
-        `http://localhost:8000/user/getUsers?username=${username}&team_id=${user.c_team}`,
-        {
-          method: "GET",
-          mode: "cors",
-          credentials: "include",
-        }
-      );
-      const data = await response.json();
-      if (response.status === 200) setUsers(data);
-      console.log("users", delUsers);
-    }
-    handle();
-  }, [username,user.c_team]);
-  return (
-    <div className="w-full h-full flex flex-col items-center gap-2">
-      <div className="flex flex-row gap-10 justify-between px-10 w-full">
-        <div className="h-full flex flex-col gap-2">
-          <input
-            onChange={(e) => {
-              setUsername(e.target.value);
-            }}
-            type="text"
-            name="username"
-            placeholder="search members"
-            className="rounded-md px-2"
-          />
-          {users.map((user: userInterface & { _id: string }) => (
-            <div
-              onClick={() => {
-                del((x) => {
-                  if (x.find((y) => y._id == user._id)) return x;
-                  return [...x, user];
-                });
-              }}
-              className="flex flex-row items-center gap-4 px-5 hover:cursor-pointer hover:bg-[#e7e7e7]"
-              key={user._id}
-            >
-              <Avatar src={user.image} username={user.username} />
-              <span>{user.username}</span>
-            </div>
-          ))}
-        </div>
-
-        <div className="w-[20rem]">
-          <h1>Delete Users:</h1>
-          {delUsers.map((user: userInterface & { _id: string }) => (
-            <div
-              className="flex flex-row items-center gap-4 px-5 hover:bg-[#e7e7e7]"
-              key={user._id}
-            >
-              <Avatar src={user.image} username={user.username} />
-              <span>{user.username}</span>
-              <ImCross
-                onClick={() =>
-                  del((x) => x.filter((x1) => x1._id !== user._id))
-                }
-                className="hover:cursor-pointer text-red-600"
-              />
-            </div>
-          ))}
-        </div>
-      </div>
-    </div>
-  );
-}
-
-
-function AddAdmin() {
-  const [delUsers, del] = useState<(userInterface & { _id: string })[]>([]);
-  const [users, setUsers] = useState([]);
-  const [username, setUsername] = useState("");
-  const {user}=useContext(userContext);
-  useEffect(() => {
-    async function handle() {
-      const response = await fetch(
-        `http://localhost:8000/user/getUsers?username=${username}&team_id=${user.c_team}`,
-        {
-          method: "GET",
-          mode: "cors",
-          credentials: "include",
-        }
-      );
-      const data = await response.json();
-      if (response.status === 200) setUsers(data);
-      console.log("users", delUsers);
-    }
-    handle();
-  }, [username,user.c_team]);
-  return (
-    <div className="w-full h-full flex flex-col items-center gap-2">
-      <div className="flex flex-row gap-10 justify-between px-10 w-full">
-        <div className="h-full flex flex-col gap-2">
-          <input
-            onChange={(e) => {
-              setUsername(e.target.value);
-            }}
-            type="text"
-            name="username"
-            placeholder="search members"
-            className="rounded-md px-2"
-          />
-          {users.map((user: userInterface & { _id: string }) => (
-            <div
-              onClick={() => {
-                del((x) => {
-                  if (x.find((y) => y._id == user._id)) return x;
-                  return [...x, user];
-                });
-              }}
-              className="flex flex-row items-center gap-4 px-5 hover:cursor-pointer hover:bg-[#e7e7e7]"
-              key={user._id}
-            >
-              <Avatar src={user.image} username={user.username} />
-              <span>{user.username}</span>
-            </div>
-          ))}
-        </div>
-
-        <div className="w-[20rem]">
-          <h1>Admin:</h1>
-          {delUsers.map((user: userInterface & { _id: string }) => (
-            <div
-              className="flex flex-row items-center gap-4 px-5 hover:bg-[#e7e7e7]"
-              key={user._id}
-            >
-              <Avatar src={user.image} username={user.username} />
-              <span>{user.username}</span>
-              <ImCross
-                onClick={() =>
-                  del((x) => x.filter((x1) => x1._id !== user._id))
-                }
-                className="hover:cursor-pointer text-red-600"
-              />
-            </div>
-          ))}
-        </div>
-      </div>
-    </div>
-  );
-}

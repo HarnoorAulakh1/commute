@@ -24,20 +24,20 @@ async function TeamBar() {
   //const arr=teams1.array;
   //console.log("teams=",arr );
   return (
-    <div className="try w-[6%] flex flex-col justify-between overflow-hidden">
+    <div className="try w-[5rem] md:w-full flex flex-col justify-between overflow-hidden">
       <div className="w-full text-[2.5rem] h-[100%] flex flex-col items-center gap-2 pt-10">
-        <Icon>
+        <Icon i={-1}>
           <AiFillSkype />
         </Icon>
-        <Icon>
+        <Icon i={-1}>
           <AiFillTwitterCircle />
         </Icon>
-        <Icon>
+        <Icon i={-1}>
           <AiFillPropertySafety />
         </Icon>
         {arr &&
-          arr.map((team: team & { _id: string }) => (
-            <Icon id={team._id} key={team.name}>
+          arr.map((team: team & { _id: string }, i: number) => (
+            <Icon id={team._id} i={i} key={team.name}>
               <Image
                 src={team.logo}
                 width={40}

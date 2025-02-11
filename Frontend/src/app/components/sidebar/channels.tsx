@@ -4,6 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useContext, useState } from "react";
 import { userContext } from "../profile";
+import { useRouter } from "next/navigation";
 
 function Channels() {
   const [channels, setChannels] = useState([]);
@@ -21,9 +22,16 @@ function Channels() {
         }
       );
       const data = await response.json();
-      if (response.status === 200) setChannels(data);
-      else alert("Failed to fetch channels");
-      console.log("channels", data);
+      if (response.status === 200) {
+        setChannels(data);
+        //console.log("data=", user.c_channel);
+        // if (!user.c_channel)
+        //   dispatch((x) => {
+        //     return { ...x, c_channel: data[0]._id };
+        //   });
+      } else {
+        alert("Failed to fetch channels");
+      }
     }
     handle();
   }, [user.c_team]);
@@ -31,9 +39,10 @@ function Channels() {
     <List heading="Channels">
       <div className="flex flex-col gap-2 pl-2">
         {channels.map(
-          (channel: { name: string; _id: string; logo: string }) => (
+          (channel: { name: string; _id: string; logo: string }, i) => (
             <Tab2
               href={`/console/chat`}
+              i={i}
               id={channel._id}
               text={channel.name}
               key={channel._id}
@@ -46,6 +55,9 @@ function Channels() {
             </Tab2>
           )
         )}
+        <Tab2 i={-1} href="/console/chat" text="General" key={-1} id="">
+          <Image alt="fire" src="/fire.png" width={20} height={20} />
+        </Tab2>
       </div>
     </List>
   );
@@ -58,20 +70,32 @@ function Tab2({
   href,
   text,
   id,
+  i,
 }: {
   children: React.ReactNode;
   href: string;
   text: string;
   id: string;
+  i: number;
 }) {
   const { dispatch } = useContext(userContext);
+  const router = useRouter();
+  useEffect(() => {
+    if (i == 0) {
+      dispatch((x) => {
+        return { ...x, c_channel: id };
+      });
+      router.push("/console/chat");
+    }
+  }, [i, id, dispatch, router]);
   return (
     <div
-      onClick={() =>
+      onClick={() => {
         dispatch((x) => {
           return { ...x, c_channel: id };
-        })
-      }
+        });
+        router.push("/console/chat");
+      }}
       className="hover:cursor-pointer"
     >
       <Link

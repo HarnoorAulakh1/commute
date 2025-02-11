@@ -2,7 +2,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import Message from "../../components/messages/message";
 import Input from "@/app/components/messages/input";
-import { message, messages } from "@/types";
+import { messages } from "@/types";
 import { useContext } from "react";
 import { userContext } from "@/app/components/profile";
 import io from "socket.io-client";
@@ -28,14 +28,28 @@ export default function Scroll() {
         credentials: "include",
       });
       const data = await response.json();
-      if (response.status === 200) setMessages(data);
-      else console.log("Error in fetching messages");
+      if (response.status === 200) {
+        setMessages(data);
+      } else {
+        setMessages([
+          {
+            team_id: "",
+            channel_id: "",
+            sender_id: "",
+            message: "Welcome to commute",
+            name: "ChatBot",
+            image: "/fire.png",
+            file: { type: "", link: "", name: "" },
+          },
+        ]);
+        console.log("Error in fetching messages");
+      }
     };
     handle();
     const socket1 = io("ws://localhost:4000");
     socket1.on("initial_data", () => {
       //console.log("data=", data);
-      if (user.c_team && user.c_channel)
+      if (user.c_team)
         socket1.emit("join_room", {
           team_id: user.c_team,
           channel_id: user.c_channel,
@@ -44,9 +58,9 @@ export default function Scroll() {
     dispatch((x) => {
       return { ...x, socket: socket1 };
     });
-    socket1.on("receive_message", (data: message) => {
+    socket1.on("receive_message", (data: messages) => {
       console.log("data=", data);
-      setMessages((x: message[]) => {
+      setMessages((x: messages[]) => {
         if (x && x.length != 0) return [...x, data];
         return [data];
       });
@@ -54,18 +68,18 @@ export default function Scroll() {
     return () => {
       socket1.disconnect();
     };
-  }, [user.c_team, user.c_channel]);
+  }, [user.c_team, user.c_channel,dispatch]);
   return (
-    <div className="scroll1 flex flex-col scroll1 gap-8 items-start p-4 overflow-scroll overflow-x-hidden">
+    <div className="scroll1 w-full flex flex-col scroll1 gap-8 items-start p-4 overflow-scroll overflow-x-hidden">
       {messages.map((x, i) => (
         <Message
+          time={x.created_at}
           user_id={user._id}
           channel_id={x.channel_id}
           team_id={x.team_id}
           sender_id={x.sender_id}
           image={x.image}
           name={x.name}
-          time="2"
           message={x.message}
           file={{ type: x.file.type, link: x.file.link, name: x.file.name }}
           key={i}
@@ -80,7 +94,7 @@ export default function Scroll() {
           sender_id="21212"
           image="/file.jpeg"
           name="John Doe"
-          time="2"
+          time={new Date()}
           message=""
           file={{ type: "", link: "", name: "" }}
           key={"21o"}
