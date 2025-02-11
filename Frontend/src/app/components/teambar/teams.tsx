@@ -1,10 +1,12 @@
 "use client";
 import { useContext } from "react";
 import { userContext } from "../profile";
+import { useEffect } from "react";
 
 export default function Icon({
   children,
   id,
+  i,
 }: {
   children: React.ReactNode;
   id?: string;
@@ -24,12 +26,12 @@ export default function Icon({
     if (data.admin && id) dispatch({ ...user, c_team: id, admin: true });
     else if (id) dispatch({ ...user, c_team: id });
   };
-  // useEffect(() => {
-  //   //console.log("i=", user.c_team);
-  //   if (i == 0 && id && user._id && user.c_team==undefined) {
-  //     handle();
-  //   }
-  // }, [id, i,user._id]);
+  useEffect(() => {
+    //console.log("i=", user.c_team);
+    if (i == 0 && id && user._id && !user.c_team) {
+      handle();
+    }
+  }, [id, i,user._id,user.c_team]);
 
   return (
     <div onClick={handle} className="w-full">

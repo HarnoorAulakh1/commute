@@ -8,7 +8,8 @@ import { useRouter } from "next/navigation";
 
 function Channels() {
   const [channels, setChannels] = useState([]);
-  const { user } = useContext(userContext);
+  const { user ,dispatch} = useContext(userContext);
+  const router = useRouter();
   //console.log("id", id);
   useEffect(() => {
     async function handle() {
@@ -25,10 +26,12 @@ function Channels() {
       if (response.status === 200) {
         setChannels(data);
         //console.log("data=", user.c_channel);
-        // if (!user.c_channel)
-        //   dispatch((x) => {
-        //     return { ...x, c_channel: data[0]._id };
-        //   });
+        if (!user.c_channel){
+          dispatch((x) => {
+            return { ...x, c_channel: data[0]._id };
+          });
+          router.push("/console/chat");
+        }
       } else {
         alert("Failed to fetch channels");
       }
@@ -70,7 +73,6 @@ function Tab2({
   href,
   text,
   id,
-  i,
 }: {
   children: React.ReactNode;
   href: string;
@@ -80,14 +82,6 @@ function Tab2({
 }) {
   const { dispatch } = useContext(userContext);
   const router = useRouter();
-  useEffect(() => {
-    if (i == 0) {
-      dispatch((x) => {
-        return { ...x, c_channel: id };
-      });
-      router.push("/console/chat");
-    }
-  }, [i, id, dispatch, router]);
   return (
     <div
       onClick={() => {
