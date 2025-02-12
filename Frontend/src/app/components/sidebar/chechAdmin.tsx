@@ -8,7 +8,7 @@ export function CheckAdmin({ children }: { children: React.ReactNode }) {
   useEffect(() => {
     async function handle() {
       const response = await fetch(
-        `http://localhost:8000/team/checkAdmin?id=${user._id}&team_id=${user.c_team}`,
+        `/api/team/checkAdmin?id=${user._id}&team_id=${user.c_team}`,
         {
           method: "GET",
           mode: "cors",

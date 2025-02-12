@@ -15,7 +15,7 @@ function List({
   return (
     <div className="flex flex-col p-2 gap-2">
       <div className="flex flex-row justify-between">
-        <h1 className="text-md text-[#403e54]">{heading}</h1>
+        <h1 className="text-md text-[#403e54] dark:text-[#ffff]">{heading}</h1>
         <div onClick={() => setState((x) => !x)}>
           {!state ? <IoAdd /> : <FiMinus />}
         </div>

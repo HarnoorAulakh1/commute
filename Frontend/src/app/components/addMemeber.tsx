@@ -15,7 +15,7 @@ export default function AddMember() {
   useEffect(() => {
     async function handle() {
       const response = await fetch(
-        `http://localhost:8000/user/getUsers?username=${username}`,
+        `/api/user/getUsers?username=${username}`,
         {
           method: "GET",
           mode: "cors",

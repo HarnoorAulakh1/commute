@@ -4,7 +4,7 @@ import { useRouter } from "next/navigation";
 export default function Logout({ children }: { children: React.ReactNode }) {
   const router = useRouter();
   async function handle() {
-    const response = await fetch("http://localhost:8000/user/logout", {
+    const response = await fetch("/api/user/logout", {
       method: "POST",
       mode: "cors",
       credentials: "include",

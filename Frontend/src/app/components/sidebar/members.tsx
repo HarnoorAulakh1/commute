@@ -26,7 +26,7 @@ function AddMember() {
   useEffect(() => {
     async function handle() {
       const response = await fetch(
-        `http://localhost:8000/user/getUsers?username=${username}&team_id=${user.c_team}`,
+        `/api/user/getUsers?username=${username}&team_id=${user.c_team}`,
         {
           method: "GET",
           mode: "cors",
@@ -69,7 +69,7 @@ function User({ user,set }: { user: userInterface & { _id: string },set:React.Di
   const [admin, setAdmin] = useState(false);
   useEffect(() => {
     async function handle(){
-    const response = await fetch(`http://localhost:8000/team/checkAdmin?id=${user._id}&team_id=${user1.c_team}`, {
+    const response = await fetch(`/api/team/checkAdmin?id=${user._id}&team_id=${user1.c_team}`, {
       method: "GET",
       mode: "cors",
       credentials: "include",

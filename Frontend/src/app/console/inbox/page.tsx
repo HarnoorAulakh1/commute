@@ -5,7 +5,7 @@ import { userInterface } from "@/types";
 
 async function Inbox() {
   const cookies1 = await cookies();
-  const response1 = await fetch("http://localhost:8000/user/checkLogin", {
+  const response1 = await fetch("https://commute-m5tv.onrender.com/user/checkLogin", {
     method: "GET",
     mode: "cors",
     headers: {
@@ -15,7 +15,7 @@ async function Inbox() {
   });
   const user = await response1.json();
   const response = await fetch(
-    `http://localhost:8000/notification/getNotification?user_id=${user._id}`,
+    `https://commute-m5tv.onrender.com/notification/getNotification?user_id=${user._id}`,
     {
       method: "GET",
       mode: "cors",

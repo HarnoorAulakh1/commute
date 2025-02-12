@@ -5,9 +5,7 @@ import { Schema } from "mongoose";
 //   "process.env.MONGODB_URI",
 // );
 
-mongoose.connect(
-  "mongodb://localhost:27017/commute",
-);
+mongoose.connect("mongodb+srv://harnooraulakh16:jnTbegLfU2mpiXs0@cluster0.gc5km.mongodb.net/commute");
 
 const schema = new Schema({
   username: {
@@ -36,18 +34,23 @@ const schema = new Schema({
     type: String,
     required: true,
   },
-  teams:[
+  teams: [
     {
       type: Schema.Types.ObjectId,
       ref: "team",
     },
   ],
-  channels:[
+  channels: [
     {
       type: Schema.Types.ObjectId,
       ref: "channel",
     },
   ],
+  darkMode: {
+    type: Boolean,
+    required: true,
+    default: false,
+  },
   status: {
     type: String,
     required: true,

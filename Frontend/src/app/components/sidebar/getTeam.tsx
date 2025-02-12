@@ -10,7 +10,7 @@ export default function GetTeam() {
   useEffect(() => {
     const handle = async () => {
       const response = await fetch(
-        `http://localhost:8000/team/getTeam?id=${user.c_team}`,
+        `/api/team/getTeam?id=${user.c_team}`,
         {
           method: "GET",
           mode: "cors",

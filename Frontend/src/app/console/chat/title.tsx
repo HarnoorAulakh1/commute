@@ -16,7 +16,7 @@ function Title() {
         if(!user.c_channel)
             return;
       const response = await fetch(
-        `http://localhost:8000/channel/getChannel?id=${user.c_channel}`,
+        `/api/channel/getChannel?id=${user.c_channel}`,
         {
           method: "GET",
           mode: "cors",
@@ -29,10 +29,10 @@ function Title() {
     handle();
   }, [user.c_channel]);
   return (
-    <div className="text-[#76747f] flex flex-row items-center w-full font-bold justify-between p-4 shadow-sm border-b-[1px] border-[#dfdfdf]">
+    <div className="text-[#76747f] dark:text-[#c5c4c4] flex flex-row items-center w-full font-bold justify-between p-4 shadow-sm border-b-[1px] border-[#dfdfdf]">
       <div className=" flex flex-row items-center gap-2">
-        <div className="bg-[#fefefe] rounded-md p-1">
-          <GoHash className="bg-white" />
+        <div className="bg-[#868686] rounded-md p-1">
+          <GoHash className="bg-white dark:bg-[#868686] text-[#ffff]"/>
         </div>
 
         <span className="hover:cursor-pointer">{channel?channel.name:"CHANNEL"}</span>

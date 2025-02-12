@@ -15,7 +15,7 @@ export default function Icon({
   const { user, dispatch } = useContext(userContext);
   const handle = async () => {
     const response = await fetch(
-      `http://localhost:8000/team/checkAdmin?id=${user._id}&team_id=${id}`,
+      `/api/team/checkAdmin?id=${user._id}&team_id=${id}`,
       {
         method: "GET",
         mode: "cors",
@@ -41,7 +41,7 @@ export default function Icon({
             id === user.c_team ? "bg-black" : ""
           } rounded-r-lg`}
         ></div>
-        <div className={`p-1 ${id ? "bg-white" : "bg-[#e5e5e5]"} rounded-lg`}>
+        <div className={`p-1 bg-[#ffffff] rounded-lg`}>
           {children}
         </div>
       </div>

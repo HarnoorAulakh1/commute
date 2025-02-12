@@ -28,7 +28,7 @@ function Message({
   const timeAgo = new TimeAgo('en-US')
   const ago = timeAgo.format(date);
   return (
-    <div className='w-[85%] relative'>
+    <div className='w-[85%] relative text-black dark:text-[#ffffff]'>
       <div className={`flex flex-row gap-2 w-full  ${sender_id==user_id?"justify-end":"justify-start"}`}>
         <div className={`rounded-[5rem] h-max overflow-hidden`}>
           <Image
@@ -42,10 +42,10 @@ function Message({
 
         <div className="flex flex-col items-start">
           <div className="flex flex-row gap-2 items-baseline">
-            <p className="text-black font-bold">{name}</p>
+            <p className=" font-bold">{name}</p>
             <p className="text-[#908f9e] text-sm">{ago}</p>
           </div>
-          <p className="text-[#403e54] h-full">{message}</p>
+          <p className="text-[#403e54] dark:text-[#d2d2d2] h-full">{message}</p>
         </div>
       </div>
       {file?.type && (

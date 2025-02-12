@@ -12,7 +12,7 @@ import Icon from "./teams";
 
 async function TeamBar() {
   const cookies1 = await cookies();
-  const teams = await fetch("http://localhost:8000/team/getTeams", {
+  const teams = await fetch("https://commute-m5tv.onrender.com/team/getTeams", {
     method: "GET",
     mode: "cors",
     headers: {
@@ -24,7 +24,7 @@ async function TeamBar() {
   //const arr=teams1.array;
   //console.log("teams=",arr );
   return (
-    <div className="try w-[5rem] md:w-full flex flex-col justify-between overflow-hidden">
+    <div className="bg-white dark:bg-darkBg h-full w-[5rem] md:w-full flex flex-col justify-between overflow-hidden">
       <div className="w-full text-[2.5rem] h-[100%] flex flex-col items-center gap-2 pt-10">
         <Icon i={-1}>
           <AiFillSkype />
@@ -52,8 +52,8 @@ async function TeamBar() {
             <div
               className={`flex flex-row items-center relative gap-2 hover:cursor-pointer`}
             >
-              <div className={`p-1 bg-white rounded-lg`}>
-                <FaPlus />
+              <div className={`p-1 bg-[#ffff] rounded-lg`}>
+                <FaPlus className=" rounded-xl" />
               </div>
             </div>
           }

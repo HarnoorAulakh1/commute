@@ -15,7 +15,7 @@ function Channels() {
     async function handle() {
       if (!user.c_team) return;
       const response = await fetch(
-        `http://localhost:8000/channel/getChannels?team_id=${user.c_team}`,
+        `/api/channel/getChannels?team_id=${user.c_team}`,
         {
           method: "GET",
           mode: "cors",
@@ -94,10 +94,10 @@ function Tab2({
     >
       <Link
         href={href}
-        className="flex flex-row hover:bg-[#ebeced] items-center gap-2 pl-2 rounded-lg hover:cursor-pointer"
+        className="flex flex-row hover:bg-[#ebeced] dark:hover:bg-[#636363] items-center gap-2 pl-2 rounded-lg hover:cursor-pointer"
       >
         <div className="text-xl">{children}</div>
-        <h1 className="text-sm text-[#908f9e]">{text}</h1>
+        <h1 className="text-sm text-[#908f9e] dark:text-[#c0c0c0]">{text}</h1>
       </Link>
     </div>
   );

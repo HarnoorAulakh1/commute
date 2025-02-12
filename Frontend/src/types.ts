@@ -8,6 +8,7 @@ export interface userInterface{
     image:string,
     teams:string[],
     status:string
+    darkMode:boolean,
 }
 
 export interface messages{

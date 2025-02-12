@@ -1,7 +1,7 @@
 "use client";
 import React, { useContext } from "react";
 import Menu from "../menu";
-import { MdOutlineDarkMode } from "react-icons/md";
+import DarkMode from "./darkMode";
 import { FiLogOut } from "react-icons/fi";
 import { IoSettingsOutline } from "react-icons/io5";
 import { userContext } from "../profile";
@@ -10,9 +10,9 @@ import { useRouter } from "next/navigation";
 
 function Account() {
   const { user } = useContext(userContext);
-  const router=useRouter();
+  const router = useRouter();
   async function handle() {
-    const response = await fetch("http://localhost:8000/user/logout", {
+    const response = await fetch("/api/user/logout", {
       method: "POST",
       mode: "cors",
       credentials: "include",
@@ -27,15 +27,13 @@ function Account() {
         </div>
       }
     >
-      <div className="flex flex-col p-1 py-4 gap-2 rounded-md fixed bottom-12 left-12 bg-white ">
-        <Tab  text="Preferences">
+      <div className="flex flex-col p-1 py-4 gap-2 rounded-md fixed bottom-12 left-12 dark:bg-[#787777] hover:bg-[#ebeced] bg-white ">
+        <Tab text="Preferences">
           <IoSettingsOutline />
         </Tab>
-        <Tab  text="Dark Mode">
-          <MdOutlineDarkMode />
-        </Tab>
+        <DarkMode/>
         <div onClick={handle}>
-          <Tab  text="Logout">
+          <Tab text="Logout">
             <FiLogOut />
           </Tab>
         </div>
@@ -44,19 +42,11 @@ function Account() {
   );
 }
 
-function Tab({
-  children,
-  text,
-}: {
-  children: React.ReactNode;
-  text: string;
-}) {
+export function Tab({ children, text }: { children: React.ReactNode; text: string }) {
   return (
-    <div
-      className="flex flex-row hover:bg-[#ebeced] z-[9999] items-center gap-2 pr-8 pl-2 rounded-lg hover:cursor-pointer"
-    >
-      <div className="text-[1.2rem] text-[#908f9e]">{children}</div>
-      <h1 className="text-sm text-[#737373]">{text}</h1>
+    <div className="flex flex-row hover:bg-[#ebeced] dark:hover:bg-[#585858] z-[9999] items-center gap-2 pr-8 pl-2 rounded-lg hover:cursor-pointer">
+      <div className="text-[1.2rem] text-[#908f9e] dark:text-[#ffff]">{children}</div>
+      <h1 className="text-sm text-[#737373] dark:text-[#ffff]">{text}</h1>
     </div>
   );
 }
