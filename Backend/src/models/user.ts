@@ -1,11 +1,11 @@
 import mongoose from "mongoose";
 import { Schema } from "mongoose";
+import dotenv from "dotenv";
+dotenv.config({ path: "./.env" });
 
-// mongoose.connect(
-//   "process.env.MONGODB_URI",
-// );
+mongoose.connect(process.env.MONGODB_URI as string);
 
-mongoose.connect("mongodb+srv://harnooraulakh16:jnTbegLfU2mpiXs0@cluster0.gc5km.mongodb.net/commute");
+// mongoose.connect("mongodb://localhost:27017/commute");
 
 const schema = new Schema({
   username: {
