@@ -37,7 +37,7 @@ function Signup({
     form.reset();
   }
   return (
-    <div className="w-[60%] rounded-md p-10 bg-white h-max">
+    <div className="w-[90%]  md:w-[60%] rounded-md p-10 bg-white h-max">
       <h1 className="text-xl font-bold mb-[3rem]">Create an account</h1>
       <form className="flex flex-col gap-[1rem] font-light" onSubmit={handle}>
         <div className="flex flex-col">
@@ -188,7 +188,7 @@ function Login({
           <h1>Loading.....</h1>
         </div>
       ) : (
-        <div className="w-[60%] rounded-md h-max p-10 bg-white">
+        <div className="w-[90%] md:w-[60%] rounded-md h-max p-10 bg-white">
           <h1 className="text-xl font-bold mb-[3rem]">Login</h1>
           {/* <div dangerouslySetInnerHTML={{ __html: svg }} className="w-[2rem]"/> */}
           <form
@@ -219,20 +219,20 @@ function Login({
                 required
               />
             </div>
-            <div className="flex flex-row justify-between items-center text-sm font-light">
+            <div className="flex flex-row gap-4 items-center text-sm font-light">
               <button
                 type="submit"
                 className="bg-[#156ff6] text-white py-2 px-4 rounded-md w-max"
               >
                 Login
               </button>
-              <div>
+              <div className="flex flex-col">
                 New here?
                 <span
                   className="text-[#165fd4]"
                   onClick={() => setter((x) => !x)}
                 >
-                  Create an account
+                Create an account
                 </span>
               </div>
             </div>

@@ -23,12 +23,11 @@ export default async function Auth() {
     <>
       {(
         <div className="w-full h-full flex  items-center justify-center bg-black">
-          <div className="w-[90%] flex flex-col md:flex-row gap-2 items-center justify-center pt-5">
-            <div className="flex flex-col gap-2">
-              <h1 className="text-white text-8xl font-bold whitespace-pre-line">
+          <div className="w-[85%] flex flex-col md:flex-row gap-2 items-center justify-center pt-5">
+            <div className="flex flex-col gap-2 mb-8 md:mb-0">
+              <h1 className="text-white text-3xl md:text-8xl font-bold whitespace-pre-line">
                 Welcome to{" "}
-                <span className="underline decoration-[#4BB543]">VIEW</span>{" "}
-                Analytics
+                <span className="underline decoration-[#4BB543]">commute</span>{" "}
               </h1>
             </div>
             <Form />

@@ -3,6 +3,25 @@
 @tailwind utilities;
 
 
+body {
+  background-color: #000000;
+  height: 100%;
+}
+html {
+  height: 100%;
+}
+.fade {
+  -webkit-mask-image: linear-gradient(transparent,#454444);
+  mask-image: linear-gradient(transparent, #454444);
+}
+
+.fade1 {
+  height: 50rem;
+  -webkit-mask-image: linear-gradient(transparent,#ffffff,transparent);
+  mask-image: linear-gradient(transparent,#ffffff,transparent);
+}
+
+
 input{
   outline: none;
 }

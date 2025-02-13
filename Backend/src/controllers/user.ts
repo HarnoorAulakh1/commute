@@ -6,12 +6,11 @@ import createToken from "../utils/jwt.js";
 import user from "../models/user.js";
 import jwt from "jsonwebtoken";
 import { uploadToCloudinary } from "../utils/cloudinary.js";
-import fs from "fs";
 import ObjectID from "bson-objectid";
 
 export const login = async (req: Request, res: Response) => {
   const { username, password } = req.body;
-  //console.log(req.body);
+  console.log(await user.find());
   const data: userInterface[] = await user.find({ username: username });
   const user1 = data[0];
   const secret: any = process.env.secret;
