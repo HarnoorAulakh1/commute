@@ -37,7 +37,7 @@ function Channels() {
       }
     }
     handle();
-  }, [user.c_team]);
+  }, [user.c_team,dispatch,router,user.c_channel]);
   return (
     <List heading="Channels">
       <div className="flex flex-col gap-2 pl-2">

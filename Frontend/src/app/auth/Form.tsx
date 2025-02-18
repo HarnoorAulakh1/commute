@@ -25,6 +25,35 @@ function Signup({
     e.preventDefault();
     const form = e.target as HTMLFormElement;
     const data = new FormData(form);
+    const pass = JSON.stringify(data.get("password"));
+    const pass1: string[] = pass.split("");
+    console.log(pass1);
+    let num = false;
+    pass1.forEach((x: string) => {
+      console.log(x + " " + isNaN(parseInt(x)));
+      if (!isNaN(parseInt(x))) {
+        num = true;
+      }
+    });
+    const formObject = Object.fromEntries(data.entries());
+    const mail = JSON.stringify(formObject["email"]);
+    const mail1=JSON.parse(mail).split("@");
+    console.log(data.get("username"));
+    if(JSON.stringify(data.get("username")).length<7){
+      alert("Username must be atleast 5 characters long");
+    }
+    if (pass.length < 10) {
+      alert("Password must be atleast 8 characters long");
+    }
+    if (pass.length > 20) {
+      alert("Password must be atmost 20 characters long");
+    }
+    if (!num) {
+      alert("Password must contain atleast one number");
+    }
+    if (mail1[1]!=="gmail.com") {
+      alert("Email must be of the form @gmail.com");
+    }
     const response = await fetch("api/user/register", {
       method: "POST",
       mode: "cors",
@@ -232,7 +261,7 @@ function Login({
                   className="text-[#165fd4]"
                   onClick={() => setter((x) => !x)}
                 >
-                Create an account
+                  Create an account
                 </span>
               </div>
             </div>
