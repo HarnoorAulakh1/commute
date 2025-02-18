@@ -26,7 +26,7 @@ function Channels() {
       if (response.status === 200) {
         setChannels(data);
         //console.log("data=", user.c_channel);
-        if (!user.c_channel){
+        if (!user.c_channel && data.length > 0) {
           dispatch((x) => {
             return { ...x, c_channel: data[0]._id };
           });
