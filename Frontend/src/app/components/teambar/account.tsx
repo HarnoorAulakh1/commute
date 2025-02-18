@@ -5,7 +5,7 @@ import DarkMode from "./darkMode";
 import { FiLogOut } from "react-icons/fi";
 import { IoSettingsOutline } from "react-icons/io5";
 import { userContext } from "../profile";
-import { Avatar } from "../addMemeber";
+import { Avatar1 } from "../addMemeber";
 import { useRouter } from "next/navigation";
 
 function Account() {
@@ -23,11 +23,11 @@ function Account() {
     <Menu
       trigger={
         <div className="rounded-md border-[1px] border-black right-[1.7rem] overflow-hidden">
-          <Avatar src={user.image} username={user.username} h={60} w={60} />
+          <Avatar1 src={user.image} username={user.username} h={60} w={60} />
         </div>
       }
     >
-      <div className="flex flex-col p-1 py-4 gap-2 rounded-md fixed bottom-12 left-12 dark:bg-[#787777] hover:bg-[#ebeced] bg-white ">
+      <div className="flex flex-col p-1 py-4 gap-2 rounded-md fixed bottom-12 left-12 dark:bg-[#787777] bg-[#ffff] ">
         <Tab text="Preferences">
           <IoSettingsOutline />
         </Tab>

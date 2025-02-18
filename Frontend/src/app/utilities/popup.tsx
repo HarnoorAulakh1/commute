@@ -13,10 +13,10 @@ function Popup({
       <div onClick={() => setState((x) => !x)} >{trigger}</div>
       {state && (
         <div
-          className="fixed z-[100] bg-white border-r-[1px] border-[#dfdfdf] top-0 left-0 w-full h-full backdrop-blur-sm flex justify-center items-center"
+          className="fixed z-[100]  border-r-[1px] border-[#dfdfdf] top-0 left-0 w-full h-full backdrop-blur-sm flex justify-center items-center"
         >
             <div className="w-full h-full" onClick={() => setState((x) => !x)}></div>
-          <div className=" absolute w-max h-max p-4 rounded-lg  border-[2px] shadow-2xl border-[#dfdfdf]">
+          <div className="bg-[#ffff] absolute w-max h-max p-4 rounded-lg  border-[2px] shadow-2xl border-[#dfdfdf]">
             {children}
           </div>
         </div>

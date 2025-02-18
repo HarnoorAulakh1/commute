@@ -13,7 +13,7 @@ export default function Menu({ children }: { children: React.ReactNode }) {
     >
       <div
         className={`${
-          state != -1 ? "w-[18rem]" : "w-0"
+          state != -1 ? "w-[20rem]" : "w-0"
         } overflow-hidden transition-all duration-100 ease-linear`}
       >
         {state == 1 && children }

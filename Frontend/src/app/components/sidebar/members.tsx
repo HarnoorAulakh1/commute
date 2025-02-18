@@ -1,7 +1,7 @@
 "use client";
 import { HiDotsVertical } from "react-icons/hi";
 import { useState, useEffect } from "react";
-import { Avatar } from "../addMemeber";
+import { Avatar1} from "../addMemeber";
 import { userInterface } from "@/types";
 import { useContext } from "react";
 import { userContext } from "../profile";
@@ -90,7 +90,7 @@ function User({ user,set }: { user: userInterface & { _id: string },set:React.Di
         }}
         className="flex flex-row items-center gap-4 px-5 hover:cursor-pointer"
       >
-        <Avatar src={user.image} username={user.username} />
+        <Avatar1 src={user.image} username={user.username} />
 
         <div className="flex flex-col">
         <span>{user.username}</span>

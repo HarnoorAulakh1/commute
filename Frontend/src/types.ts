@@ -7,6 +7,7 @@ export interface userInterface{
     lastName:string,
     image:string,
     teams:string[],
+    channels:string[],
     status:string
     darkMode:boolean,
 }

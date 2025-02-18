@@ -1,29 +1,49 @@
 "use client";
 import { useContext, useEffect } from "react";
-import { useState } from "react";
 import Image from "next/image";
 import { createAvatar } from "@dicebear/core";
 import { identicon } from "@dicebear/collection";
 import { userInterface } from "@/types";
 import { userContext } from "./profile";
+import { useState } from "react";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent } from "@/components/ui/card";
+import { Label } from "@/components/ui/label";
+import { Switch } from "@/components/ui/switch";
+import { Badge } from "@/components/ui/badge";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Input } from "@/components/ui/input";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import { Separator } from "@/components/ui/separator";
+import {
+  UserCircle,
+  Mail,
+  Building,
+  MessageCircle,
+  Camera,
+} from "lucide-react";
 
 export default function AddMember() {
   const [profile, show] = useState(false);
-  const [user, setUser] = useState<userInterface>();
-  const [users, setUsers] = useState([]);
-  const [username, setUsername] = useState("");
+  const [user, dispatch] = useState<userInterface>();
+  const [users, dispatchs] = useState([]);
+  const [username, dispatchname] = useState("");
   useEffect(() => {
     async function handle() {
-      const response = await fetch(
-        `/api/user/getUsers?username=${username}`,
-        {
-          method: "GET",
-          mode: "cors",
-          credentials: "include",
-        }
-      );
+      const response = await fetch(`/api/user/getUsers?username=${username}`, {
+        method: "GET",
+        mode: "cors",
+        credentials: "include",
+      });
       const data = await response.json();
-      if (response.status === 200) setUsers(data);
+      if (response.status === 200) dispatchs(data);
       //console.log("users", users);
     }
     handle();
@@ -35,7 +55,7 @@ export default function AddMember() {
         <input
           onChange={(e) => {
             show(false);
-            setUsername(e.target.value);
+            dispatchname(e.target.value);
           }}
           type="text"
           name="username"
@@ -51,12 +71,12 @@ export default function AddMember() {
             <div
               onClick={() => {
                 show(true);
-                setUser(user);
+                dispatch(user);
               }}
               className="flex flex-row items-center gap-4 px-5 hover:cursor-pointer hover:bg-[#e7e7e7]"
               key={user._id}
             >
-              <Avatar src={user.image} username={user.username} />
+              <Avatar1 src={user.image} username={user.username} />
               <span>{user.username}</span>
             </div>
           ))}
@@ -66,7 +86,7 @@ export default function AddMember() {
   );
 }
 
-export function Avatar({
+export function Avatar1({
   src,
   username,
   w,
@@ -110,48 +130,182 @@ export function Title({ title }: { title: string }) {
   );
 }
 
-function Profile({ user }: { user: userInterface}) {
-  const { user: user1 } = useContext(userContext);
-  async function handle() {
-    const response = await fetch("http://localhost:8000/team/sendRequest", {
-      method: "POST",
-      mode: "cors",
-      credentials: "include",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        team_id: user1.c_team,
-        sender_id: user1._id,
-        user_id: user._id,
-      }),
-    });
-    if (response.status === 200) alert("Invited");
-    console.log(user1);
-  }
+export function Profile({ user }: { user: userInterface }) {
+  const [isEditing, setIsEditing] = useState(false);
+  const {user:user1, dispatch } = useContext(userContext);
+
+  const toggleDarkMode = () => {
+    dispatch((prev) => ({ ...prev, darkMode: !prev.darkMode }));
+    document.documentElement.classList.toggle("dark");
+  };
 
   return (
-    <div className="w-full h-full flex flex-col items-center gap-2">
-      <div className="w-full h-full flex flex-col items-center gap-2 p-4">
-        <div className="flex flex-col items-center gap-5 px-5 ">
-          <Avatar src={user.image} username={user.username} h={120} w={120} />
-          <span className="font-bold">{user.username}</span>
-          <span>
-            {user.firstName} {user.lastName}
-          </span>
-        </div>
-        {!(
-          !user1.c_team ||
-          (user1.c_team && user.teams.find((x) => x == user1.c_team))
-        ) && (
-          <button
-            onClick={handle}
-            className="border-[1px] w-max px-2 rounded-md border-[#a7a7a7] hover:bg-[#e9e9e9]"
-          >
-            Invite to team
-          </button>
-        )}
-      </div>
+    <div className="container mx-auto p-4">
+      <Card className="max-w-4xl mx-auto">
+        <CardContent className="p-6">
+          <div className="flex flex-col md:flex-row items-center md:items-start space-y-4 md:space-y-0 md:space-x-6 mb-6">
+            <div className="relative">
+              <Avatar className="h-32 w-32">
+                <AvatarImage src={user.image} alt={user.username} />
+                <AvatarFallback>
+                  {user.firstName[0]}
+                  {user.lastName[0]}
+                </AvatarFallback>
+              </Avatar>
+              <Button
+                size="icon"
+                className="absolute bottom-0 right-0 rounded-full"
+                variant="outline"
+              >
+                <Camera className="h-4 w-4" />
+              </Button>
+            </div>
+            <div className="text-center md:text-left">
+              <h2 className="text-3xl font-bold">
+                {user.firstName} {user.lastName}
+              </h2>
+              <p className="text-muted-foreground">@{user.username}</p>
+              <div className="mt-2 flex md:flex-col  items-center justify-center md:justify-start space-x-2">
+                <Badge variant="outline">{user.status}</Badge>
+                <Select
+                  value={user.status}
+                  onValueChange={(value) => {
+                    console.log(value);
+                    dispatch((prev) => ({ ...prev, status: value }));
+                  }}
+                >
+                  <SelectTrigger className="w-[100px] text-lg">
+                    <p>{user1.status}</p>
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="Online">Online</SelectItem>
+                    <SelectItem value="Away">Away</SelectItem>
+                    <SelectItem value="Busy">Busy</SelectItem>
+                    <SelectItem value="Offline">Offline</SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
+            </div>
+          </div>
+
+          <Tabs defaultValue="info" className="w-full">
+            <TabsList className="grid w-full grid-cols-3">
+              <TabsTrigger value="info">Info</TabsTrigger>
+              <TabsTrigger value="teams">Teams</TabsTrigger>
+              <TabsTrigger value="channels">Channels</TabsTrigger>
+            </TabsList>
+            <TabsContent value="info">
+              <div className="space-y-4">
+                <div className="flex items-center space-x-2">
+                  <UserCircle className="text-muted-foreground" />
+                  <Label>Username:</Label>
+                  {isEditing ? (
+                    <Input
+                      value={user.username}
+                      onChange={(e) =>
+                        dispatch((prev) => ({
+                          ...prev,
+                          username: e.target.value,
+                        }))
+                      }
+                    />
+                  ) : (
+                    <span>{user.username}</span>
+                  )}
+                </div>
+                <div className="flex items-center space-x-2">
+                  <Mail className="text-muted-foreground" />
+                  <Label>Email:</Label>
+                  {isEditing ? (
+                    <Input
+                      value={user.email}
+                      onChange={(e) =>
+                        dispatch((prev) => ({ ...prev, email: e.target.value }))
+                      }
+                    />
+                  ) : (
+                    <span>{user.email}</span>
+                  )}
+                </div>
+                <div className="flex items-center space-x-2">
+                  <Label htmlFor="dark-mode">Dark Mode</Label>
+                  <Switch
+                    id="dark-mode"
+                    checked={user.darkMode}
+                    onCheckedChange={toggleDarkMode}
+                  />
+                </div>
+              </div>
+            </TabsContent>
+            <TabsContent value="teams">
+              <div className="space-y-4">
+                <div className="flex items-center space-x-2">
+                  <Building className="text-muted-foreground" />
+                  <span>Teams:</span>
+                </div>
+                <div className="flex flex-wrap gap-2">
+                  {user.teams.map((team) => (
+                    <Badge key={team} variant="secondary">
+                      {team}
+                    </Badge>
+                  ))}
+                </div>
+                {isEditing && (
+                  <Input
+                    placeholder="Add new team"
+                    onKeyPress={(e) => {
+                      if (e.key === "Enter") {
+                        dispatch((prev) => ({
+                          ...prev,
+                          teams: [...prev.teams, e.currentTarget.value],
+                        }));
+                        e.currentTarget.value = "";
+                      }
+                    }}
+                  />
+                )}
+              </div>
+            </TabsContent>
+            <TabsContent value="channels">
+              <div className="space-y-4">
+                <div className="flex items-center space-x-2">
+                  <MessageCircle className="text-muted-foreground" />
+                  <span>Channels:</span>
+                </div>
+                <div className="flex flex-wrap gap-2">
+                  {user.channels.map((channel) => (
+                    <Badge key={channel} variant="outline">
+                      {channel}
+                    </Badge>
+                  ))}
+                </div>
+                {isEditing && (
+                  <Input
+                    placeholder="Add new channel"
+                    onKeyPress={(e) => {
+                      if (e.key === "Enter") {
+                        dispatch((prev) => ({
+                          ...prev,
+                          channels: [...prev.channels, e.currentTarget.value],
+                        }));
+                        e.currentTarget.value = "";
+                      }
+                    }}
+                  />
+                )}
+              </div>
+            </TabsContent>
+          </Tabs>
+
+          <Separator className="my-6" />
+
+          <div className="flex justify-end">
+            <Button onClick={() => setIsEditing(!isEditing)}>
+              {isEditing ? "Save Changes" : "Edit Profile"}
+            </Button>
+          </div>
+        </CardContent>
+      </Card>
     </div>
   );
 }
