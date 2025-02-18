@@ -46,7 +46,7 @@ export default function Scroll() {
       }
     };
     handle();
-    const socket1 = io("ws://localhost:4000");
+    const socket1 = io("ws://commute-m5tv.onrender.com");
     socket1.on("initial_data", () => {
       //console.log("data=", data);
       if (user.c_team)
